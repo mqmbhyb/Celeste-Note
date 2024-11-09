@@ -4,13 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.bhyb.celestenote.compose.bottomnavbar.BottomNavBarScreen
 import com.bhyb.celestenote.ui.page.add.Add
-import com.bhyb.celestenote.ui.page.home.Home
 import com.bhyb.celestenote.ui.page.my.My
-
-private const val ROUTE_HOME = "home"
-private const val ROUTE_ADD = "add"
-private const val ROUTE_MY = "my"
+import com.bhyb.celestenote.ui.page.note.Note
 
 @Composable
 fun AppNavHost(
@@ -18,17 +15,17 @@ fun AppNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = ROUTE_HOME
+        startDestination = BottomNavBarScreen.Note.route
     ){
-        composable(ROUTE_HOME){
-            Home()
+        composable(BottomNavBarScreen.Note.route){
+            Note()
         }
 
-        composable(ROUTE_ADD){
+        composable(BottomNavBarScreen.Add.route){
             Add()
         }
 
-        composable(ROUTE_MY){
+        composable(BottomNavBarScreen.My.route){
             My()
         }
     }

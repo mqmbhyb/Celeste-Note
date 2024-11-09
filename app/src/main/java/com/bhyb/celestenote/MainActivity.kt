@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.bhyb.celestenote.ui.theme.CelesteNoteTheme
 import androidx.navigation.compose.rememberNavController
-import com.bhyb.celestenote.route.AppNavHost
+import com.bhyb.celestenote.compose.bottomnavbar.BottomNav
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             CelesteNoteTheme {
-                AppNavHost(navController)
+                BottomNav()
             }
         }
     }
