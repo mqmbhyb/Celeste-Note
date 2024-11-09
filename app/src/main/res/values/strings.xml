@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Celeste Note</string>
+    <string name="bottombar_title_note">笔记</string>
+    <string name="bottombar_title_my">我的</string>
+    <string name="bottombar_title_add">创作</string>
 </resources>

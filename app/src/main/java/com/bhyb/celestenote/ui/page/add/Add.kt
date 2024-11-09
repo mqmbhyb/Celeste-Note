@@ -1,4 +1,7 @@
 package com.bhyb.celestenote.ui.page.add
 
-class Add {
+import androidx.compose.runtime.Composable
+
+@Composable
+fun Add() {
 }
