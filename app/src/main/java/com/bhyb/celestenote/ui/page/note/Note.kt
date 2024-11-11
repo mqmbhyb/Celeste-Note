@@ -38,7 +38,7 @@ fun Note() {
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .background(colorResource(id = R.color.grey))
+                .background(colorResource(id = R.color.screen_background_color))
                 .fillMaxHeight()
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(16.dp),
