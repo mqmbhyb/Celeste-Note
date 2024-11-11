@@ -1,32 +1,31 @@
 package com.bhyb.celestenote.route
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.bhyb.celestenote.compose.bottomnavbar.BottomNavBarScreen
-import com.bhyb.celestenote.ui.page.add.Add
-import com.bhyb.celestenote.ui.page.my.My
-import com.bhyb.celestenote.ui.page.note.Note
+import com.bhyb.celestenote.compose.bottomnavbar.BottomNav
+import com.bhyb.celestenote.ui.page.landing.LandingScreen
+
+const val ROUTE_LANDING_SCREEN = "landing_screen"
+const val ROUTE_BOTTOM_NAV = "bottom_nav"
 
 @Composable
 fun AppNavHost(
-    navController: NavHostController
+    navController: NavHostController,
+    modifier: Modifier = Modifier
 ) {
     NavHost(
         navController = navController,
-        startDestination = BottomNavBarScreen.Note.route
+        startDestination = ROUTE_LANDING_SCREEN
     ){
-        composable(BottomNavBarScreen.Note.route){
-            Note()
+        composable(ROUTE_LANDING_SCREEN) {
+            LandingScreen(modifier,navController)
         }
 
-        composable(BottomNavBarScreen.Add.route){
-            Add()
-        }
-
-        composable(BottomNavBarScreen.My.route){
-            My()
+        composable(ROUTE_BOTTOM_NAV) {
+            BottomNav()
         }
     }
 }

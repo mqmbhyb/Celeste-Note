@@ -25,7 +25,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -34,7 +33,6 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.bhyb.celestenote.R
-import com.bhyb.celestenote.route.AppNavHost
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -44,7 +42,7 @@ fun BottomNav(){
     Scaffold(
         bottomBar = { BottomBar(navController = navController)}
     ) {
-        AppNavHost(navController = navController)
+        BottomNavHost(navController = navController)
     }
 }
 
@@ -122,10 +120,4 @@ fun RowScope.AddItem(
             }
         }
     }
-}
-
-@Composable
-@Preview
-fun BottomNavBarPreview(){
-    BottomNav()
 }
