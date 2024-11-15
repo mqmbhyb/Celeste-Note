@@ -7,17 +7,23 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,21 +39,44 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.bhyb.celestenote.R
+import com.bhyb.celestenote.ui.page.note.drawer.DrawerContent
+import com.bhyb.celestenote.ui.page.note.drawer.DrawerScreen
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun BottomNav(){
+fun BottomNav() {
     val navController = rememberNavController()
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+    var selectedItem by remember { mutableStateOf<DrawerScreen>(DrawerScreen.AllNote) }
 
-    Scaffold(
-        bottomBar = { BottomBar(navController = navController)}
-    ) {
-        BottomNavHost(navController = navController)
+    val drawerContent: @Composable () -> Unit = {
+        DrawerContent(
+            selectedItem = selectedItem,
+            onItemSelected = {
+                selectedItem = it;
+                scope.launch { drawerState.close() }
+            }
+        )
+    }
+
+    ModalNavigationDrawer(
+        drawerContent = drawerContent,
+        drawerState = drawerState
+    ){
+        Scaffold(
+            bottomBar = {
+                BottomBar(navController = navController)
+            }
+        ) {
+            BottomNavHost(drawerState, scope, selectedItem, navController)
+        }
     }
 }
 
 @Composable
-fun BottomBar(navController: NavController){
+fun BottomBar(navController: NavController) {
     val screens = listOf(
         BottomNavBarScreen.Note,
         BottomNavBarScreen.Add,
@@ -75,12 +104,12 @@ fun BottomBar(navController: NavController){
 }
 
 @Composable
-fun RowScope.AddItem(
+fun AddItem(
     screen: BottomNavBarScreen,
     currentDestination: NavDestination?,
     navController: NavController
-){
-    val selected = currentDestination?.hierarchy?.any{ it.route == screen.route } == true
+) {
+    val selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
 
     val background =
         if (selected) colorResource(R.color.bottom_navbar_color) else Color.Transparent
@@ -102,7 +131,7 @@ fun RowScope.AddItem(
                     }
                 }
             )
-    ){
+    ) {
         Row(
             modifier = Modifier
                 .padding(start = 10.dp, end = 10.dp, top = 8.dp, bottom = 8.dp),

@@ -73,6 +73,9 @@ dependencies {
     debugImplementation(libs.compose.ui.test.manisfest)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.kotlin.serialization)
 }
 
 kapt {

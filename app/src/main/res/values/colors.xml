@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="bottom_navbar_color">#4BA2F1</color>
     <color name="screen_background_color">#F4F5F7</color>
+    <color name="top_bar_icon_color">#49454F</color>
 </resources>
