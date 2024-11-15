@@ -65,9 +65,9 @@ fun LandingScreen(
         Spacer(modifier = Modifier.weight(1f))
     }
 
-    //Jump to the home page after a delay
+    //Jump to the note page after a delay
     LaunchedEffect(key1 = true){
-        delay(2000)
+        delay(1000)
         navController.navigate(ROUTE_BOTTOM_NAV){
             popUpTo(ROUTE_LANDING_SCREEN){
                 inclusive = true
