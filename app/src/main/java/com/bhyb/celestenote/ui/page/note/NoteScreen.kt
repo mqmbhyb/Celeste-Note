@@ -37,7 +37,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Note(
+fun NoteScreen(
     drawerState: DrawerState,
     scope: CoroutineScope,
     selectedItem: DrawerScreen,
@@ -93,7 +93,7 @@ fun Note(
                 },
                 actions = {
                     IconButton(
-                        onClick = { TODO("跳转到新建笔记页面") }
+                        onClick = {  }
                     ) {
                         Icon(Icons.Filled.Add, null)
                     }
