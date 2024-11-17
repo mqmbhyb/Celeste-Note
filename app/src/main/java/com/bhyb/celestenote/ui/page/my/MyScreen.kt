@@ -1,7 +1,7 @@
-package com.bhyb.celestenote.ui.page.add
+package com.bhyb.celestenote.ui.page.my
 
 import androidx.compose.runtime.Composable
 
 @Composable
-fun Add() {
+fun MyScreen() {
 }
