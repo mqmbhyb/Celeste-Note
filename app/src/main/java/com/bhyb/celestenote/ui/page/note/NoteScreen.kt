@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ElevatedCard
@@ -92,6 +93,11 @@ fun NoteScreen(
                     }
                 },
                 actions = {
+                    IconButton(
+                        onClick = {  }
+                    ) {
+                        Icon(Icons.Filled.Search, null)
+                    }
                     IconButton(
                         onClick = {  }
                     ) {

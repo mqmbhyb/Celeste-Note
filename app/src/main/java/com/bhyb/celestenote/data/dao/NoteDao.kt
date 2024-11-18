@@ -27,4 +27,8 @@ interface NoteDao {
     //彻底删除
     @Query("DELETE FROM note WHERE id IN (:noteIds)")
     suspend fun deleteNotesByIds(noteIds: List<Int>)
+
+    //搜索
+    @Query("SELECT * FROM note WHERE title LIKE :searchQuery OR content LIKE :searchQuery")
+    fun queryNotesLike(searchQuery: String): Flow<List<NoteEntity>>
 }

@@ -25,7 +25,7 @@ fun DrawerContent(
     ModalDrawerSheet(
         drawerContainerColor = Color.White,
         modifier = Modifier
-            .width(280.dp)
+            .width(300.dp)
     ) {
         Box(
             modifier = Modifier
