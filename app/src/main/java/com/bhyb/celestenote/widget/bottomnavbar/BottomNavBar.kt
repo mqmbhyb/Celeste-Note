@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -61,6 +63,7 @@ fun BottomNav() {
         )
     }
 
+    //TODO 禁用非note page的侧边栏右滑打开
     ModalNavigationDrawer(
         drawerContent = drawerContent,
         drawerState = drawerState
@@ -70,7 +73,20 @@ fun BottomNav() {
                 BottomBar(navController = navController)
             }
         ) {
-            BottomNavHost(drawerState, scope, selectedItem, navController)
+            Box(
+                modifier = Modifier
+                    .background(
+                        Brush.linearGradient(
+                            colors = listOf(
+                                Color.White,
+                                colorResource(id = R.color.screen_background_color)
+                            )
+                        )
+                    )
+                    .fillMaxSize()
+            ) {
+                BottomNavHost(drawerState, scope, selectedItem, navController)
+            }
         }
     }
 }
