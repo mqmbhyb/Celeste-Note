@@ -1,4 +1,4 @@
-package com.bhyb.celestenote.ui.page.my
+package com.bhyb.celestenote.ui.screen.my
 
 import androidx.compose.runtime.Composable
 

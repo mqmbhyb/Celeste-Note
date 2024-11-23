@@ -1,4 +1,4 @@
-package com.bhyb.celestenote.ui.page.note
+package com.bhyb.celestenote.ui.screen.note
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,7 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.bhyb.celestenote.R
-import com.bhyb.celestenote.ui.page.note.drawer.DrawerScreen
+import com.bhyb.celestenote.ui.screen.note.drawer.DrawerScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -120,7 +120,7 @@ fun NoteScreen(
 
 @Composable
 fun NoteItem(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     text: String
 ) {
     Column(

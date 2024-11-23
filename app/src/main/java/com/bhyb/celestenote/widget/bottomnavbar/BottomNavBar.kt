@@ -1,4 +1,4 @@
-package com.bhyb.celestenote.compose.bottomnavbar
+package com.bhyb.celestenote.widget.bottomnavbar
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
@@ -39,8 +39,8 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.bhyb.celestenote.R
-import com.bhyb.celestenote.ui.page.note.drawer.DrawerContent
-import com.bhyb.celestenote.ui.page.note.drawer.DrawerScreen
+import com.bhyb.celestenote.ui.screen.note.drawer.DrawerContent
+import com.bhyb.celestenote.ui.screen.note.drawer.DrawerScreen
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

@@ -1,4 +1,4 @@
-package com.bhyb.celestenote.compose.bottomnavbar
+package com.bhyb.celestenote.widget.bottomnavbar
 
 import com.bhyb.celestenote.R
 

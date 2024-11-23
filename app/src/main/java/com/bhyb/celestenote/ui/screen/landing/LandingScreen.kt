@@ -1,4 +1,4 @@
-package com.bhyb.celestenote.ui.page.landing
+package com.bhyb.celestenote.ui.screen.landing
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

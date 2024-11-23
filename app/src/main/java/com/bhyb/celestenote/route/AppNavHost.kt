@@ -5,8 +5,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.bhyb.celestenote.compose.bottomnavbar.BottomNav
-import com.bhyb.celestenote.ui.page.landing.LandingScreen
+import com.bhyb.celestenote.ui.screen.landing.LandingScreen
+import com.bhyb.celestenote.widget.bottomnavbar.BottomNav
 
 const val ROUTE_LANDING_SCREEN = "landing_screen"
 const val ROUTE_BOTTOM_NAV = "bottom_nav"

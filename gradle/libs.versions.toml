@@ -2,9 +2,10 @@
 agp = "8.2.2"
 kotlin = "1.9.20"
 hilt = "2.44"
-core = "1.10.1"
-lifecycle = "2.6.1"
-activity = "1.7.0"
+core = "1.13.1"
+coil = "2.6.0"
+lifecycle = "2.8.3"
+activity = "1.8.0"
 compose_bom = "2023.08.00"
 material3 = "1.2.1"
 navigation = "2.8.3"
@@ -40,6 +41,7 @@ room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

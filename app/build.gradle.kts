@@ -53,24 +53,25 @@ android {
 
 dependencies {
 
-    val composeBom = platform(libs.compose.bom)
-
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.ktx)
     implementation(libs.activity.compose)
-    implementation(composeBom)
-    implementation(libs.compose.ui)
-    implementation(libs.compose.ui.graphics)
-    implementation(libs.compose.ui.tooling.preview)
-    implementation(libs.compose.material3)
     implementation(libs.navigation.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    val composeBom = platform(libs.compose.bom)
+    implementation(composeBom)
     androidTestImplementation(composeBom)
-    androidTestImplementation(libs.compose.ui.test)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.graphics)
+    implementation(libs.compose.ui.tooling.preview)
     debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.compose.ui.test.manisfest)
+    implementation(libs.compose.material3)
+    androidTestImplementation(libs.compose.ui.test)
+
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
@@ -81,4 +82,6 @@ dependencies {
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)
     implementation(libs.room.paging)
+
+    implementation(libs.coil.compose)
 }

@@ -1,4 +1,4 @@
-package com.bhyb.celestenote.ui.page.note.drawer
+package com.bhyb.celestenote.ui.screen.note.drawer
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
