@@ -63,10 +63,10 @@ fun BottomNav() {
         )
     }
 
-    //TODO 禁用非note page的侧边栏右滑打开
     ModalNavigationDrawer(
         drawerContent = drawerContent,
-        drawerState = drawerState
+        drawerState = drawerState,
+        gesturesEnabled = drawerState.isOpen //仅在抽屉打开时允许手势开关抽屉
     ){
         Scaffold(
             bottomBar = {
