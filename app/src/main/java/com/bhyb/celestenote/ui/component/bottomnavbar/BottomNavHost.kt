@@ -1,4 +1,4 @@
-package com.bhyb.celestenote.widget.bottomnavbar
+package com.bhyb.celestenote.ui.component.bottomnavbar
 
 import androidx.compose.material3.DrawerState
 import androidx.compose.runtime.Composable

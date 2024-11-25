@@ -58,7 +58,7 @@ fun MyScreen(
             Icon(Icons.Filled.Settings, contentDescription = "设置")
         }
 
-        Spacer(modifier = modifier.height(50.dp))
+        Spacer(modifier = modifier.height(45.dp))
 
         Image(
             painter = painterResource(id = R.drawable.ic_bottom_my_focused),
@@ -72,11 +72,11 @@ fun MyScreen(
 
         Button(
             onClick = { },
-            colors = ButtonDefaults.buttonColors(Color.White.copy(0.9f)),
+            colors = ButtonDefaults.buttonColors(Color.White.copy(0.8f)),
             border = BorderStroke(3.dp, Color.White),
             elevation = ButtonDefaults.buttonElevation(
                 defaultElevation = 4.dp,
-                pressedElevation = 8.dp
+                pressedElevation = 10.dp
             )
         ) {
             Text("去登录", color = Color.Black)
@@ -142,9 +142,9 @@ fun MiddleRowItemView(
             contentDescription = null,
             modifier = modifier
                 .size(40.dp)
-                .padding(top = 4.dp)
+                .padding(5.dp)
         )
-        Spacer(modifier = modifier.height(8.dp))
+        Spacer(modifier = modifier.height(4.dp))
         Text(item.title, modifier = modifier.padding(bottom = 4.dp))
     }
 }
@@ -159,7 +159,7 @@ fun BottomColumn(
             .clip(shape = RoundedCornerShape(20.dp))
             .background(Color.Gray.copy(0.1f))
             .fillMaxWidth(),
-        contentPadding = PaddingValues(vertical = 12.dp)
+        contentPadding = PaddingValues(vertical = 8.dp)
     ) {
         items(items) {item ->
             BottomColumnItemView(item = item, modifier)
@@ -174,7 +174,7 @@ fun BottomColumnItemView(
 ) {
     Row(
         modifier = modifier
-            .padding(12.dp)
+            .padding(10.dp)
             .clip(shape = RoundedCornerShape(20.dp))
             .background(Color.White.copy(0.7f))
             .fillMaxWidth()
@@ -188,7 +188,7 @@ fun BottomColumnItemView(
                 contentDescription = null,
                 modifier = modifier
                     .size(40.dp)
-                    .padding(6.dp)
+                    .padding(8.dp)
             )
             Spacer(modifier = modifier.width(12.dp))
             Text(item.title)

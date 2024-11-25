@@ -36,7 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bhyb.celestenote.R
-import com.bhyb.celestenote.widget.PassParametersToast
+import com.bhyb.celestenote.ui.component.PassParametersToast
 
 data class GridItem(val icon:Int, val title: String, val onItemClick: () -> Unit)
 

@@ -1,4 +1,4 @@
-package com.bhyb.celestenote.widget
+package com.bhyb.celestenote.ui.component
 
 import android.content.Context
 import android.widget.Toast

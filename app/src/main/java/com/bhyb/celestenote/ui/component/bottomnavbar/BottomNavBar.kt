@@ -1,4 +1,4 @@
-package com.bhyb.celestenote.widget.bottomnavbar
+package com.bhyb.celestenote.ui.component.bottomnavbar
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
