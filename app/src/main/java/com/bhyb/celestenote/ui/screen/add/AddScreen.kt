@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.sp
 import com.bhyb.celestenote.R
 import com.bhyb.celestenote.widget.PassParametersToast
 
-data class GridItem(val icon: Int, val title: String, val onItemClick: () -> Unit)
+data class GridItem(val icon:Int, val title: String, val onItemClick: () -> Unit)
 
 @Composable
 fun AddScreen(
@@ -48,7 +48,7 @@ fun AddScreen(
         modifier = modifier
             .padding(16.dp)
     ) {
-        // Toast 用来占位
+        // Toast
         val context = LocalContext.current
         val toastForClickBanner = {
             PassParametersToast.show(context, R.string.no_more)
@@ -57,7 +57,7 @@ fun AddScreen(
             PassParametersToast.show(context, R.string.functional_development)
         }
 
-        // Banner
+        // 轮播图
         Carousel()
 
         Spacer(modifier = modifier.height(16.dp))
@@ -134,7 +134,7 @@ fun GridSection(
             modifier = modifier.padding(bottom = 10.dp)
         ) {
             items(items) { item ->
-                GridItemView(item = item)
+                GridItemView(item = item, modifier)
             }
         }
     }
@@ -143,8 +143,10 @@ fun GridSection(
 @Composable
 fun GridItemView(
     item: GridItem,
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
 ) {
+    val imageResource = painterResource(id = item.icon)
+    val painter = remember { imageResource }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -154,7 +156,7 @@ fun GridItemView(
             }
     ) {
         Image(
-            painter = painterResource(id = item.icon),
+            painter = painter,
             contentDescription = item.title,
             modifier = modifier
                 .size(40.dp)

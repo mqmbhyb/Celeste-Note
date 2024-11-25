@@ -91,8 +91,10 @@ fun Carousel(
         LaunchedEffect(key1 = Unit) {
             while (true) {
                 delay(3000L)
-                scope.launch {
-                    pagerState.animateScrollToPage((pagerState.currentPage + 1) % images.size)
+                if (!pagerState.isScrollInProgress) {
+                    scope.launch {
+                        pagerState.animateScrollToPage((pagerState.currentPage + 1) % pageCount)
+                    }
                 }
             }
         }

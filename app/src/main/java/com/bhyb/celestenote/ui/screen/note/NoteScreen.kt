@@ -87,7 +87,6 @@ fun NoteScreen(
                             contentDescription = "展开分类",
                             tint = colorResource(id = R.color.top_bar_icon_color),
                             modifier = modifier
-                                .padding(top = 4.dp)
                                 .size(18.dp)
                         )
                     }

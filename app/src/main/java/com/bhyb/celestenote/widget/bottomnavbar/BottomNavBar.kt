@@ -135,7 +135,7 @@ fun AddItem(
 
     Box(
         modifier = Modifier
-            .padding(vertical = 10.dp)
+            .padding(vertical = 10.dp, horizontal = 20.dp)
             .height(40.dp)
             .clip(CircleShape)
             .background(background)
