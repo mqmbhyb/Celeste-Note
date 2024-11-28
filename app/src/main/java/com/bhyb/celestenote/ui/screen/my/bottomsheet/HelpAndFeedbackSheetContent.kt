@@ -1,5 +1,8 @@
 package com.bhyb.celestenote.ui.screen.my.bottomsheet
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -13,17 +16,28 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.bhyb.celestenote.R
+import com.bhyb.celestenote.ui.component.PassParametersToast
+import kotlinx.coroutines.launch
 
 @Composable
 fun HelpAndFeedbackSheetContent(
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
+    val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    val scope = rememberCoroutineScope()
+    val toastForClickButton = {
+        PassParametersToast.show(context, "已复制QQ:3170128085")
+    }
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -45,7 +59,13 @@ fun HelpAndFeedbackSheetContent(
         )
 
         Button(
-            onClick = {  },
+            onClick = {
+                val clip = ClipData.newPlainText("QQ", "3170128085")
+                clipboardManager.setPrimaryClip(clip)
+                scope.launch {
+                    toastForClickButton()
+                }
+            },
             modifier = modifier.fillMaxWidth()
         ) {
             Text("联系客服")
