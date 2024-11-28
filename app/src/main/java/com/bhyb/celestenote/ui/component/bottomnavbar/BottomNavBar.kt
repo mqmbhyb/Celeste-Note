@@ -20,6 +20,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,6 +53,15 @@ fun BottomNav() {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     var selectedItem by remember { mutableStateOf<DrawerScreen>(DrawerScreen.AllNote) }
+    val currentRoute = remember(navController) {
+        mutableStateOf(navController.currentBackStackEntry?.destination?.route ?: "")
+    }
+    // 监听导航控制器中的路由变化
+    LaunchedEffect(navController) {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            currentRoute.value = destination.route.toString()
+        }
+    }
 
     val drawerContent: @Composable () -> Unit = {
         DrawerContent(
@@ -70,7 +80,9 @@ fun BottomNav() {
     ){
         Scaffold(
             bottomBar = {
-                BottomBar(navController = navController)
+                if (currentRoute.value in listOf(BottomNavBarScreen.Note.route, BottomNavBarScreen.Add.route, BottomNavBarScreen.My.route)) {
+                    BottomBar(navController = navController)
+                }
             }
         ) {
             Box(
@@ -84,6 +96,7 @@ fun BottomNav() {
                         )
                     )
                     .fillMaxSize()
+                    .padding(it)
             ) {
                 BottomNavHost(drawerState, scope, selectedItem, navController)
             }

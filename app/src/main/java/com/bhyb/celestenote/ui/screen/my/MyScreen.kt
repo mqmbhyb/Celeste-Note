@@ -137,8 +137,8 @@ fun MyScreen(
             items = listOf(
                 MiddleRowItem(R.drawable.ic_my_sentence_excerpts, "句摘") {},
                 MiddleRowItem(R.drawable.ic_my_recycle_bin, "回收站") {},
-                MiddleRowItem(R.drawable.ic_my_cloud_sync, "云同步") {},
-                MiddleRowItem(R.drawable.ic_my_grass, "草稿") {}
+                MiddleRowItem(R.drawable.ic_my_cloud_management, "云管理") {},
+                MiddleRowItem(R.drawable.ic_my_discover, "逛逛") {}
             )
         )
 

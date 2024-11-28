@@ -42,6 +42,7 @@ data class GridItem(val icon:Int, val title: String, val onItemClick: () -> Unit
 
 @Composable
 fun AddScreen(
+    onAddNoteClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -97,7 +98,7 @@ fun AddScreen(
         )
         GridSection(
             title = "新建", items = listOf(
-                GridItem(R.drawable.ic_new_note, "新建笔记") { toastForClickGridItem() },
+                GridItem(R.drawable.ic_new_note, "新建笔记") { onAddNoteClicked() },
                 GridItem(R.drawable.ic_new_painting, "新建绘画") { toastForClickGridItem() },
                 GridItem(R.drawable.ic_new_novel, "新建小说") { toastForClickGridItem() },
                 GridItem(R.drawable.ic_new_mindmap, "思维导图") { toastForClickGridItem() }

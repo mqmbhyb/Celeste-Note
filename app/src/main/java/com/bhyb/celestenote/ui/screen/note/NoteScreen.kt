@@ -42,7 +42,8 @@ fun NoteScreen(
     drawerState: DrawerState,
     scope: CoroutineScope,
     selectedItem: DrawerScreen,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onAddNoteClicked: () -> Unit
 ) {
     // 测试数据
     val text1 = """
@@ -98,9 +99,9 @@ fun NoteScreen(
                         Icon(Icons.Filled.Search, null)
                     }
                     IconButton(
-                        onClick = {  }
+                        onClick = onAddNoteClicked
                     ) {
-                        Icon(Icons.Filled.Add, null)
+                        Icon(Icons.Filled.Add, "新建笔记")
                     }
                 }
             )
