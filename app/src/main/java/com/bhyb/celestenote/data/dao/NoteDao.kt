@@ -15,14 +15,14 @@ interface NoteDao {
     @Update
     suspend fun updateNote(note: NoteEntity)
 
+    @Query("SELECT * FROM note WHERE is_delete = :isDelete ORDER BY create_time DESC")
+    fun getNotes(isDelete: Boolean): Flow<List<NoteEntity>>
+
     @Query("SELECT * FROM note WHERE id = :id")
     suspend fun getNoteById(id: Int): NoteEntity?
 
     @Query("SELECT * FROM note WHERE category = :category")
     suspend fun getNoteByCategory(category: Int): NoteEntity?
-
-    @Query("SELECT * FROM note ORDER BY create_time DESC")
-    fun getAllNotes(): Flow<List<NoteEntity>>
 
     //彻底删除
     @Query("DELETE FROM note WHERE id IN (:noteIds)")

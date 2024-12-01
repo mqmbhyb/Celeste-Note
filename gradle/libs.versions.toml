@@ -1,9 +1,8 @@
 [versions]
-agp = "8.2.2"
-kotlin = "1.9.20"
-hilt = "2.44"
+agp = "8.7.2"
+kotlin = "2.1.0"
+hilt = "2.52"
 core = "1.13.1"
-coil = "2.6.0"
 lifecycle = "2.8.3"
 activity = "1.8.0"
 compose_bom = "2023.08.00"
@@ -12,10 +11,11 @@ navigation = "2.8.3"
 test = "1.1.5"
 junit = "4.13.2"
 espresso = "3.5.1"
-retrofit = "2.9.0"
+retrofit = "2.11.0"
 retrofitKotlinxSerializationJson = "1.0.0"
 room = "2.6.1"
-ksp = "1.9.20-1.0.14"
+ksp = "2.1.0-1.0.29"
+coil = "2.7.0"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core" }
@@ -33,18 +33,20 @@ navigation-compose = { group = "androidx.navigation", name = "navigation-compose
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "test" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
-hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref  = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version = "2.52" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref  = "retrofit" }
 retrofit-kotlin-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinxSerializationJson" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
-coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref  = "coil" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

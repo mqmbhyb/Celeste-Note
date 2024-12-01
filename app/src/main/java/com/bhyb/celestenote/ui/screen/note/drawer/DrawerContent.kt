@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.bhyb.celestenote.R
 
@@ -35,7 +34,6 @@ fun DrawerContent(
             Text(
                 stringResource(id = R.string.note_category_title),
                 color = colorResource(id = R.color.bottom_navbar_color),
-                fontWeight = FontWeight.ExtraBold,
                 modifier = Modifier
                     .padding(start = 20.dp, top = 10.dp, bottom = 10.dp)
             )

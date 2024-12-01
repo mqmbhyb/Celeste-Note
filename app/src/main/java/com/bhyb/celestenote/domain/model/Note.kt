@@ -1,0 +1,31 @@
+package com.bhyb.celestenote.domain.model
+
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import java.util.Date
+
+@Serializable
+data class Note(
+    val id: Int = 0,
+
+    val title: String? = null,
+
+    val content: String? = null,
+
+    @SerialName("create_time")
+    @Contextual
+    val createTime: Date,
+
+    @SerialName("update_time")
+    @Contextual
+    val updateTime: Date,
+
+    var category: Int,
+
+    @SerialName("is_delete")
+    val isDelete: Boolean,
+
+    @SerialName("is_upload")
+    val isUpload: Boolean
+)
