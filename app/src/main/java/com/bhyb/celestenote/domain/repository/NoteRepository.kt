@@ -13,7 +13,7 @@ interface NoteRepository {
 
     suspend fun getNoteById(id: Int): Note?
 
-    suspend fun getNoteByCategory(category: Int): Note?
+    fun getNoteByCategory(categoryId: Int): Flow<List<Note>>
 
     suspend fun deleteNotesByIds(noteIds: List<Int>)
 

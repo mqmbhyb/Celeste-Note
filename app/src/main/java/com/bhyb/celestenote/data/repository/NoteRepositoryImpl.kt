@@ -26,8 +26,8 @@ class NoteRepositoryImpl(
         return noteDao.getNoteById(id)?.toConvert()
     }
 
-    override suspend fun getNoteByCategory(category: Int): Note? {
-        return noteDao.getNoteByCategory(category)?.toConvert()
+    override fun getNoteByCategory(categoryId: Int): Flow<List<Note>> {
+        return noteDao.getNoteByCategory(categoryId).map { it.map { result -> result.toConvert() } }
     }
 
     override suspend fun deleteNotesByIds(noteIds: List<Int>) {

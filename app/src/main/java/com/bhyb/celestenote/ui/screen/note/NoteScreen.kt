@@ -4,20 +4,20 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DrawerState
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,12 +26,16 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bhyb.celestenote.R
+import com.bhyb.celestenote.domain.model.Note
 import com.bhyb.celestenote.ui.screen.note.drawer.DrawerScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -42,22 +46,12 @@ fun NoteScreen(
     drawerState: DrawerState,
     scope: CoroutineScope,
     selectedItem: DrawerScreen,
-    modifier: Modifier = Modifier,
-    onAddNoteClicked: () -> Unit
+    onSearchClicked: () -> Unit,
+    onAddNoteClicked: () -> Unit,
+    viewModel: NoteViewModel = hiltViewModel(),
+    modifier: Modifier = Modifier
 ) {
-    // 测试数据
-    val text1 = """
-        床前明月光，疑是地上霜。
-        举头望明月，低头思故乡。
-    """.trimIndent()
-    val text2 = """
-        移舟泊烟渚，日暮客愁新。
-        野旷天低树，江清月近人。
-    """.trimIndent()
-    val text3 = """
-        大漠沙如雪，燕山月似钩。
-        何当金络脑，快走踏清秋。
-    """.trimIndent()
+    val notes by viewModel.notes.collectAsStateWithLifecycle(emptyList())
 
     Scaffold(
         topBar = {
@@ -93,25 +87,26 @@ fun NoteScreen(
                     }
                 },
                 actions = {
-                    IconButton(
-                        onClick = {  }
-                    ) {
-                        Icon(Icons.Filled.Search, null)
+                    IconButton(onClick = onSearchClicked) {
+                        Icon(Icons.Filled.Search, "Search")
                     }
-                    IconButton(
-                        onClick = onAddNoteClicked
-                    ) {
+                    IconButton(onClick = onAddNoteClicked) {
                         Icon(Icons.Filled.Add, "新建笔记")
                     }
                 }
             )
         }
     ) { paddingValues ->
-        Box(modifier = modifier.padding(paddingValues)) {
+        Box(
+            modifier = modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+                .background(colorResource(id = R.color.screen_background_color))
+        ) {
             when (selectedItem) {
-                DrawerScreen.AllNote -> NoteItem(modifier, text1)
-                DrawerScreen.Uncategorized -> NoteItem(modifier, text2)
-                DrawerScreen.LockNote -> NoteItem(modifier, text3)
+                DrawerScreen.AllNote -> NotesClassificationDisplay(notes)
+                DrawerScreen.Uncategorized -> NotesClassificationDisplay(notes.filter { false })
+                DrawerScreen.LockNote -> NotesClassificationDisplay(notes.filter { false })
             }
         }
     }
@@ -119,30 +114,24 @@ fun NoteScreen(
 
 
 @Composable
-fun NoteItem(
-    modifier: Modifier = Modifier,
-    text: String
+fun NotesClassificationDisplay(
+    notes: List<Note>,
+    modifier: Modifier = Modifier
 ) {
-    Column(
+    LazyColumn(
         modifier = modifier
-            .background(colorResource(id = R.color.screen_background_color))
-            .fillMaxHeight()
-            .fillMaxWidth(),
+            .padding(16.dp)
+            .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        ElevatedCard(
-            colors = CardDefaults.cardColors(
-                containerColor = Color.White,
-            ),
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            Text(
-                text = text,
-                modifier = modifier
+        items(notes) { note ->
+            NoteItem(
+                note = note,
+                modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .clickable {
+                        // TODO 短按打开笔记详情 长按弹出编辑项
+                    }
             )
         }
     }

@@ -11,6 +11,7 @@ import com.bhyb.celestenote.ui.screen.add.AddNoteScreen
 import com.bhyb.celestenote.ui.screen.add.AddScreen
 import com.bhyb.celestenote.ui.screen.my.MyScreen
 import com.bhyb.celestenote.ui.screen.note.NoteScreen
+import com.bhyb.celestenote.ui.screen.note.SearchScreen
 import com.bhyb.celestenote.ui.screen.note.drawer.DrawerScreen
 import kotlinx.coroutines.CoroutineScope
 
@@ -18,6 +19,7 @@ val slideIn = slideInHorizontally(initialOffsetX = { it })
 val slideOut = slideOutHorizontally(targetOffsetX = { it })
 
 const val ROUTE_ADD_NOTE_SCREEN = "add_note_screen"
+const val ROUTE_SEARCH_SCREEN = "search_screen"
 
 @Composable
 fun BottomNavHost(
@@ -37,6 +39,9 @@ fun BottomNavHost(
                 selectedItem,
                 onAddNoteClicked = {
                     navController.navigate(ROUTE_ADD_NOTE_SCREEN)
+                },
+                onSearchClicked = {
+                    navController.navigate(ROUTE_SEARCH_SCREEN)
                 },
             )
         }
@@ -61,6 +66,16 @@ fun BottomNavHost(
             popExitTransition = { slideOut }
             ) {
             AddNoteScreen(navController)
+        }
+
+        composable(
+            ROUTE_SEARCH_SCREEN,
+            enterTransition = { slideIn },
+            exitTransition = { slideOut },
+            popEnterTransition = { slideIn },
+            popExitTransition = { slideOut }
+        ) {
+            SearchScreen()
         }
     }
 }

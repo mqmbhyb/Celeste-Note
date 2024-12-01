@@ -9,7 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.bhyb.celestenote.route.AppNavHost
 import com.bhyb.celestenote.ui.theme.CelesteNoteTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

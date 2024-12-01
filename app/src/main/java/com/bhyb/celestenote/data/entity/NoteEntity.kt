@@ -20,7 +20,8 @@ data class NoteEntity(
     @ColumnInfo(name = "update_time")
     val updateTime: Date,
 
-    var category: Int,
+    @ColumnInfo(name = "category_id")
+    var categoryId: Int,
 
     @ColumnInfo(name = "is_delete")
     val isDelete: Boolean,

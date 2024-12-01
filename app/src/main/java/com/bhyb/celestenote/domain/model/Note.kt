@@ -21,7 +21,8 @@ data class Note(
     @Contextual
     val updateTime: Date,
 
-    var category: Int,
+    @SerialName("category_id")
+    var categoryId: Int,
 
     @SerialName("is_delete")
     val isDelete: Boolean,
