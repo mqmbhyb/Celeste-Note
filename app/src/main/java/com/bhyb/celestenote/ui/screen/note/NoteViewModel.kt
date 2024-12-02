@@ -3,7 +3,7 @@ package com.bhyb.celestenote.ui.screen.note
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bhyb.celestenote.domain.model.Note
-import com.bhyb.celestenote.domain.use_case.NoteUseCases
+import com.bhyb.celestenote.domain.usecase.NoteUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -5,11 +5,11 @@ import androidx.room.Room
 import com.bhyb.celestenote.data.AppDatabase
 import com.bhyb.celestenote.data.repository.NoteRepositoryImpl
 import com.bhyb.celestenote.domain.repository.NoteRepository
-import com.bhyb.celestenote.domain.use_case.NoteUseCases
-import com.bhyb.celestenote.domain.use_case.note_use_case.AddNote
-import com.bhyb.celestenote.domain.use_case.note_use_case.DeleteNotes
-import com.bhyb.celestenote.domain.use_case.note_use_case.GetNoteByCategory
-import com.bhyb.celestenote.domain.use_case.note_use_case.GetNotes
+import com.bhyb.celestenote.domain.usecase.NoteUseCases
+import com.bhyb.celestenote.domain.usecase.noteusecase.AddNote
+import com.bhyb.celestenote.domain.usecase.noteusecase.DeleteNotes
+import com.bhyb.celestenote.domain.usecase.noteusecase.GetNoteByCategory
+import com.bhyb.celestenote.domain.usecase.noteusecase.GetNotes
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

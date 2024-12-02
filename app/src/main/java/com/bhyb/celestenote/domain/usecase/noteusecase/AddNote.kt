@@ -1,4 +1,4 @@
-package com.bhyb.celestenote.domain.use_case.note_use_case
+package com.bhyb.celestenote.domain.usecase.noteusecase
 
 import com.bhyb.celestenote.domain.model.Note
 import com.bhyb.celestenote.domain.repository.NoteRepository

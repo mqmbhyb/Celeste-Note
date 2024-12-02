@@ -1,16 +1,15 @@
-package com.bhyb.celestenote.domain.use_case.note_use_case
-
+package com.bhyb.celestenote.domain.usecase.noteusecase
 
 import com.bhyb.celestenote.domain.model.Note
 import com.bhyb.celestenote.domain.repository.NoteRepository
 import kotlinx.coroutines.flow.Flow
 
-class GetNotes(
+class GetNoteByCategory(
     private  val repository: NoteRepository
 ) {
     operator fun invoke(
-        isDelete: Boolean = false
+        categoryId: Int
     ): Flow<List<Note>> {
-        return repository.getNotes(isDelete)
+        return repository.getNoteByCategory(categoryId)
     }
 }
