@@ -6,9 +6,9 @@ import java.time.format.DateTimeFormatter
 import java.util.Date
 
 @SuppressLint("NewApi")
-fun formatMonthDay(date: Date): String {
+fun formatDateTime(date: Date): String {
     val instant = date.toInstant()
     val localDateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime()
-    val formatter = DateTimeFormatter.ofPattern("MM-dd")
+    val formatter = DateTimeFormatter.ofPattern("MM-dd HH:mm")
     return formatter.format(localDateTime)
 }

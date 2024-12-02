@@ -7,7 +7,7 @@ import java.util.Date
 
 @Serializable
 data class Note(
-    val id: Int = 0,
+    val id: Int? = null,
 
     val title: String? = null,
 
@@ -30,3 +30,5 @@ data class Note(
     @SerialName("is_upload")
     val isUpload: Boolean
 )
+
+class InvalidNoteException(message: String): Exception(message)

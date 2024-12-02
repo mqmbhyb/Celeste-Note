@@ -32,19 +32,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bhyb.celestenote.R
 import com.bhyb.celestenote.domain.model.Note
-import com.bhyb.celestenote.domain.util.formatMonthDay
+import com.bhyb.celestenote.domain.util.formatDateTime
 
 @Composable
 fun NoteItem(
     note: Note,
     modifier: Modifier = Modifier
 ) {
-    val updateTime = formatMonthDay(note.updateTime)
+    val updateTime = formatDateTime(note.updateTime)
 
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(8.dp),
-        elevation = CardDefaults. cardElevation(2.dp)
+        elevation = CardDefaults.cardElevation(1.dp)
     ) {
         Column(
             modifier = Modifier

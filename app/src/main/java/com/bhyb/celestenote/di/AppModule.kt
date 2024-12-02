@@ -8,6 +8,7 @@ import com.bhyb.celestenote.domain.repository.NoteRepository
 import com.bhyb.celestenote.domain.usecase.NoteUseCases
 import com.bhyb.celestenote.domain.usecase.noteusecase.AddNote
 import com.bhyb.celestenote.domain.usecase.noteusecase.DeleteNotes
+import com.bhyb.celestenote.domain.usecase.noteusecase.GetNote
 import com.bhyb.celestenote.domain.usecase.noteusecase.GetNoteByCategory
 import com.bhyb.celestenote.domain.usecase.noteusecase.GetNotes
 import dagger.Module
@@ -43,7 +44,8 @@ object AppModule {
             addNote = AddNote(repository),
             getNotes = GetNotes(repository),
             deleteNotes = DeleteNotes(repository),
-            getNoteByCategory = GetNoteByCategory(repository)
+            getNoteByCategory = GetNoteByCategory(repository),
+            getNote = GetNote(repository)
         )
     }
 }

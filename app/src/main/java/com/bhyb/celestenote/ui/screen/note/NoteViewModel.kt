@@ -57,7 +57,7 @@ class NoteViewModel @Inject constructor(
         return Note(
             id = 0, // 如果是自增主键，设为 0 数据库会自动分配 ID
             title = "欢迎",
-            content = "这是你的第一个笔记！点击加号新建更多笔记。",
+            content = "这是你的第一个笔记！点击加号新建更多笔记。短按查看笔记详情，长按进行编辑。",
             createTime = Date(),
             updateTime = Date(),
             categoryId = 0,

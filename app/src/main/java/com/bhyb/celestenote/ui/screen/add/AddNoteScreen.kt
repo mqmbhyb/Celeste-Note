@@ -34,7 +34,7 @@ import androidx.navigation.NavController
 fun AddNoteScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: AddNoteViewModel = hiltViewModel()
+    viewModel: AddEditNoteViewModel = hiltViewModel()
 ) {
     var showMoreOptions by remember { mutableStateOf(false) }
 

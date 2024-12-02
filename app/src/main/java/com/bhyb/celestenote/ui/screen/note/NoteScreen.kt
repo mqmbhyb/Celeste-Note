@@ -130,7 +130,7 @@ fun NotesClassificationDisplay(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                        // TODO 短按打开笔记详情 长按弹出编辑项
+                        // TODO 短按打开笔记详情 长按弹出编辑项（删除、加密、上传）
                     }
             )
         }
