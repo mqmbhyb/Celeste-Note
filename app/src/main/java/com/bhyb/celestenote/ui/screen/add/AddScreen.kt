@@ -61,10 +61,10 @@ fun AddScreen(
         // 轮播图
         Carousel()
 
-        Spacer(modifier = modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .clickable(
                     interactionSource = remember { MutableInteractionSource() },
@@ -84,7 +84,7 @@ fun AddScreen(
                 Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 contentDescription = "更多",
                 tint = colorResource(id = R.color.bottom_navbar_color),
-                modifier = modifier
+                modifier = Modifier
                     .size(18.dp)
             )
         }
@@ -128,14 +128,14 @@ fun GridSection(
         Text(
             text = title,
             fontSize = 18.sp,
-            modifier = modifier.padding(top = 14.dp, start = 12.dp, bottom = 10.dp)
+            modifier = Modifier.padding(top = 14.dp, start = 12.dp, bottom = 10.dp)
         )
         LazyVerticalGrid(
             columns = GridCells.Fixed(4),
-            modifier = modifier.padding(bottom = 10.dp)
+            modifier = Modifier.padding(bottom = 10.dp)
         ) {
             items(items) { item ->
-                GridItemView(item = item, modifier)
+                GridItemView(item = item)
             }
         }
     }
@@ -143,14 +143,13 @@ fun GridSection(
 
 @Composable
 fun GridItemView(
-    item: GridItem,
-    modifier: Modifier,
+    item: GridItem
 ) {
     val imageResource = painterResource(id = item.icon)
     val painter = remember { imageResource }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
+        modifier = Modifier
             .padding(8.dp)
             .clickable {
                 item.onItemClick()
@@ -159,7 +158,7 @@ fun GridItemView(
         Image(
             painter = painter,
             contentDescription = item.title,
-            modifier = modifier
+            modifier = Modifier
                 .size(40.dp)
                 .clip(shape = RoundedCornerShape(10.dp)),
             contentScale = ContentScale.Crop
@@ -168,7 +167,7 @@ fun GridItemView(
             text = item.title,
             textAlign = TextAlign.Center,
             fontSize = 14.sp,
-            modifier = modifier
+            modifier = Modifier
                 .width(60.dp)
                 .padding(top = 4.dp)
         )

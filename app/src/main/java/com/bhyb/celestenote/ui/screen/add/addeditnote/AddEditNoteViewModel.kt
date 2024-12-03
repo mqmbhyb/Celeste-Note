@@ -1,4 +1,4 @@
-package com.bhyb.celestenote.ui.screen.add
+package com.bhyb.celestenote.ui.screen.add.addeditnote
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -21,15 +21,19 @@ class AddEditNoteViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ): ViewModel() {
     
-    private val _noteTitle = mutableStateOf(NoteTextFieldState(
+    private val _noteTitle = mutableStateOf(
+        NoteTextFieldState(
         hint = "标 题"
-    ))
-    private val noteTitle : State<NoteTextFieldState> = _noteTitle
+    )
+    )
+    val noteTitle : State<NoteTextFieldState> = _noteTitle
 
-    private val _noteContent = mutableStateOf(NoteTextFieldState(
+    private val _noteContent = mutableStateOf(
+        NoteTextFieldState(
         hint = "Enter some content"
-    ))
-    private val noteContent : State<NoteTextFieldState> = _noteContent
+    )
+    )
+    val noteContent : State<NoteTextFieldState> = _noteContent
 
     private val _eventFlow = MutableSharedFlow<ClickEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
@@ -102,7 +106,7 @@ class AddEditNoteViewModel @Inject constructor(
                         _eventFlow.emit(ClickEvent.SaveNote)
                     } catch (e: InvalidNoteException) {
                         _eventFlow.emit(
-                            ClickEvent.ShowSnackbar(
+                            ClickEvent.ShowToast(
                                 message = e.message ?: "笔记保存失败"
                             )
                         )
@@ -113,7 +117,7 @@ class AddEditNoteViewModel @Inject constructor(
     }
 
     sealed class ClickEvent {
-        data class ShowSnackbar(val message: String): ClickEvent()
+        data class ShowToast(val message: String): ClickEvent()
         object SaveNote: ClickEvent()
         // todo 其他点击事件
     }

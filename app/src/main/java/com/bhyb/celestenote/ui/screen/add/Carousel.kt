@@ -50,13 +50,13 @@ fun Carousel(
     ) {
         HorizontalPager(
             state = pagerState,
-            modifier = modifier.height(200.dp)
+            modifier = Modifier.height(200.dp)
         ) { page ->
             Box {
                 Image(
                     painter = rememberAsyncImagePainter(images[page]),
                     contentDescription = null,
-                    modifier = modifier
+                    modifier = Modifier
                         .clip(shape = RoundedCornerShape(10.dp))
                         .fillMaxWidth()
                         .height(200.dp),
@@ -66,13 +66,13 @@ fun Carousel(
                 // 指示器
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = modifier
+                    modifier = Modifier
                         .width(100.dp)
                         .align(Alignment.BottomCenter)
                 ) {
                     repeat(images.size) { index ->
                         Box(
-                            modifier = modifier
+                            modifier = Modifier
                                 .size(20.dp)
                                 .padding(4.dp)
                                 .clip(CircleShape) //顺序在size后面

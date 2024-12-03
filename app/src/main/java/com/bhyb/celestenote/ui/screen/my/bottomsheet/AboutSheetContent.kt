@@ -47,44 +47,44 @@ fun AboutSheetContent(
         Text(
             text = "关于",
             style = MaterialTheme.typography.titleMedium,
-            modifier = modifier
+            modifier = Modifier
                 .padding(bottom = 16.dp)
         )
 
-        Spacer(modifier = modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         Image(painter = rememberAsyncImagePainter(model = R.mipmap.ic_launcher), contentDescription = null)
-        Spacer(modifier = modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         Text(
             text = "Celeste Note",
             style = MaterialTheme.typography.bodyLarge,
-            modifier = modifier.padding(bottom = 16.dp)
+            modifier = Modifier.padding(bottom = 16.dp)
         )
         Text(
             text = "版本：v0.1",
             style = MaterialTheme.typography.bodyMedium,
-            modifier = modifier.padding(bottom = 16.dp)
+            modifier = Modifier.padding(bottom = 16.dp)
         )
 
-        Spacer(modifier = modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         Row {
             Button(
                 onClick = { openCopyrightSheet.value = true },
-                modifier = modifier.weight(1f)
+                modifier = Modifier.weight(1f)
             ) {
                 Text("版权声明")
             }
-            Spacer(modifier = modifier.width(6.dp))
+            Spacer(modifier = Modifier.width(6.dp))
             Button(
                 onClick = { openPrivacyPolicySheet.value = true },
-                modifier = modifier.weight(1f)
+                modifier = Modifier.weight(1f)
             ) {
                 Text("隐私政策")
             }
         }
 
-        Spacer(modifier = modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(12.dp))
 
         if (openCopyrightSheet.value) {
             ShowBottomSheet(
@@ -179,7 +179,7 @@ fun GeneralSheetContent(
             .padding(16.dp)
     ) {
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .padding(bottom = 16.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -193,20 +193,20 @@ fun GeneralSheetContent(
             IconButton(
                 onClick = { onDismissRequest() },
                 colors = IconButtonColors(colorResource(id = R.color.screen_background_color), Color.Gray.copy(0.5f), Color.Gray, Color.Gray),
-                modifier = modifier.size(20.dp)
+                modifier = Modifier.size(20.dp)
             ) {
                 Icon(Icons.Filled.KeyboardArrowDown, contentDescription = "收起")
             }
         }
 
         LazyColumn(
-            modifier = modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         ) {
             item {
                 Text(
                     text = content,
                     style = MaterialTheme.typography.bodyMedium,
-                    modifier = modifier
+                    modifier = Modifier
                         .padding(bottom = 16.dp)
                 )
             }

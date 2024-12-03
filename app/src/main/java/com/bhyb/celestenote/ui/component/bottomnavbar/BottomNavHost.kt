@@ -5,10 +5,12 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.material3.DrawerState
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.bhyb.celestenote.ui.screen.add.AddNoteScreen
+import androidx.navigation.navArgument
 import com.bhyb.celestenote.ui.screen.add.AddScreen
+import com.bhyb.celestenote.ui.screen.add.addeditnote.AddEditNoteScreen
 import com.bhyb.celestenote.ui.screen.my.MyScreen
 import com.bhyb.celestenote.ui.screen.note.NoteScreen
 import com.bhyb.celestenote.ui.screen.note.SearchScreen
@@ -18,7 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 val slideIn = slideInHorizontally(initialOffsetX = { it })
 val slideOut = slideOutHorizontally(targetOffsetX = { it })
 
-const val ROUTE_ADD_NOTE_SCREEN = "add_note_screen"
+const val ROUTE_ADD_Edit_NOTE_SCREEN = "add_edit_note_screen"
 const val ROUTE_SEARCH_SCREEN = "search_screen"
 
 @Composable
@@ -31,14 +33,14 @@ fun BottomNavHost(
     NavHost(
         navController = navController,
         startDestination = BottomNavBarScreen.Note.route
-    ){
-        composable(BottomNavBarScreen.Note.route){
+    ) {
+        composable(BottomNavBarScreen.Note.route) {
             NoteScreen(
                 drawerState,
                 scope,
                 selectedItem,
                 onAddNoteClicked = {
-                    navController.navigate(ROUTE_ADD_NOTE_SCREEN)
+                    navController.navigate(ROUTE_ADD_Edit_NOTE_SCREEN)
                 },
                 onSearchClicked = {
                     navController.navigate(ROUTE_SEARCH_SCREEN)
@@ -46,26 +48,32 @@ fun BottomNavHost(
             )
         }
 
-        composable(BottomNavBarScreen.Add.route){
+        composable(BottomNavBarScreen.Add.route) {
             AddScreen(
                 onAddNoteClicked = {
-                    navController.navigate(ROUTE_ADD_NOTE_SCREEN)
+                    navController.navigate(ROUTE_ADD_Edit_NOTE_SCREEN)
                 }
             )
         }
 
-        composable(BottomNavBarScreen.My.route){
+        composable(BottomNavBarScreen.My.route) {
             MyScreen()
         }
 
         composable(
-            ROUTE_ADD_NOTE_SCREEN,
+            route = "$ROUTE_ADD_Edit_NOTE_SCREEN?noteId={noteId}",
+            arguments = listOf(
+                navArgument(name = "noteId") {
+                    type = NavType.IntType
+                    defaultValue = -1
+                }
+            ),
             enterTransition = { slideIn },
             exitTransition = { slideOut },
             popEnterTransition = { slideIn },
             popExitTransition = { slideOut }
-            ) {
-            AddNoteScreen(navController)
+        ) {
+            AddEditNoteScreen(navController)
         }
 
         composable(

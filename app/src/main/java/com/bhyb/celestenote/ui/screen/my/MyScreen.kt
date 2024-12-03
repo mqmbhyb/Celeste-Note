@@ -101,23 +101,23 @@ fun MyScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         IconButton(
-            modifier = modifier.align(Alignment.End),
+            modifier = Modifier.align(Alignment.End),
             onClick = { }
         ) {
             Icon(Icons.Filled.Settings, contentDescription = "设置")
         }
 
-        Spacer(modifier = modifier.height(45.dp))
+        Spacer(modifier = Modifier.height(45.dp))
 
         Image(
             painter = painterResource(id = R.drawable.ic_bottom_my_focused),
             contentDescription = "用户头像",
-            modifier = modifier
+            modifier = Modifier
                 .size(80.dp)
                 .clip(CircleShape)
         )
 
-        Spacer(modifier = modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         Button(
             onClick = { },
@@ -131,7 +131,7 @@ fun MyScreen(
             Text("点击登录", color = Color.Black)
         }
 
-        Spacer(modifier = modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         MiddleRow(
             items = listOf(
@@ -142,7 +142,7 @@ fun MyScreen(
             )
         )
 
-        Spacer(modifier = modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         BottomColumn(
             items = bottomColumnItems,
@@ -168,18 +168,17 @@ fun MiddleRow(
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         items(items) { item ->
-            MiddleRowItemView(item = item, modifier)
+            MiddleRowItemView(item = item)
         }
     }
 }
 
 @Composable
 fun MiddleRowItemView(
-    item: MiddleRowItem,
-    modifier: Modifier
+    item: MiddleRowItem
 ) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .width(70.dp)
             .padding(vertical = 12.dp, horizontal = 4.dp)
             .clip(shape = RoundedCornerShape(20.dp))
@@ -190,15 +189,15 @@ fun MiddleRowItemView(
         Icon(
             painter = painterResource(id = item.icon),
             contentDescription = null,
-            modifier = modifier
+            modifier = Modifier
                 .size(35.dp)
                 .padding(top = 10.dp)
         )
-        Spacer(modifier = modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(4.dp))
         Text(
             item.title,
             fontSize = 12.sp,
-            modifier = modifier.padding(bottom = 4.dp)
+            modifier = Modifier.padding(bottom = 4.dp)
         )
     }
 }
@@ -217,7 +216,7 @@ fun BottomColumn(
         contentPadding = PaddingValues(vertical = 6.dp)
     ) {
         items(items) { item ->
-            BottomColumnItemView(item = item, onItemClicked = onItemClicked, modifier)
+            BottomColumnItemView(item = item, onItemClicked = onItemClicked)
         }
     }
 }
@@ -225,13 +224,12 @@ fun BottomColumn(
 @Composable
 fun BottomColumnItemView(
     item: BottomColumnItem,
-    onItemClicked: (content: @Composable () -> Unit, resetItemCount: () -> Unit) -> Unit,
-    modifier: Modifier
+    onItemClicked: (content: @Composable () -> Unit, resetItemCount: () -> Unit) -> Unit
 ) {
     val itemCount = item.count
 
     Row(
-        modifier = modifier
+        modifier = Modifier
             .padding(10.dp)
             .clip(shape = RoundedCornerShape(20.dp))
             .background(Color.White.copy(0.7f))
@@ -245,11 +243,11 @@ fun BottomColumnItemView(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(modifier = modifier.padding(6.dp)) {
+            Box(modifier = Modifier.padding(6.dp)) {
                 Icon(
                     painter = painterResource(id = item.icon),
                     contentDescription = null,
-                    modifier = modifier
+                    modifier = Modifier
                         .size(25.dp)
                         .align(Alignment.CenterStart)
                 )
@@ -257,20 +255,20 @@ fun BottomColumnItemView(
                     Badge(
                         containerColor = Color.Red,
                         contentColor = Color.White,
-                        modifier = modifier.align(Alignment.TopEnd)
+                        modifier = Modifier.align(Alignment.TopEnd)
                     ) {
                         Text("$itemCount")
                     }
                 }
             }
 
-            Spacer(modifier = modifier.width(6.dp))
+            Spacer(modifier = Modifier.width(6.dp))
             Text(item.title, fontSize = 13.sp)
         }
         Icon(
             Icons.AutoMirrored.Filled.KeyboardArrowRight,
             contentDescription = null,
-            modifier = modifier.padding(10.dp)
+            modifier = Modifier.padding(10.dp)
         )
     }
 }

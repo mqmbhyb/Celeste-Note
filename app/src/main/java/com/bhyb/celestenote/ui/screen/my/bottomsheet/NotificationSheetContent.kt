@@ -29,32 +29,32 @@ fun NotificationSheetContent(
             .padding(8.dp)
     ) {
         Column(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = "通知",
                 style = MaterialTheme.typography.titleMedium,
-                modifier = modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(bottom = 16.dp)
             )
 
             Text(
                 text = "您有一条最新通知🔔：",
                 style = MaterialTheme.typography.bodySmall,
-                modifier = modifier.padding(bottom = 8.dp)
+                modifier = Modifier.padding(bottom = 8.dp)
             )
 
             IndentedParagraphText("欢迎使用本软件，这是我学习Android Jetpack Compose、Gradle和Kotlin写的毕业设计！")
 
-            Spacer(modifier = modifier.height(100.dp))
+            Spacer(modifier = Modifier.height(100.dp))
         }
 
         Text(
             text = "注：切换到其他页面会刷新图标上的数字角标",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-            modifier = modifier
+            modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 8.dp)
         )

@@ -1,4 +1,4 @@
-package com.bhyb.celestenote.ui.screen.add
+package com.bhyb.celestenote.ui.screen.add.addeditnote
 
 import androidx.compose.ui.focus.FocusState
 

@@ -47,7 +47,7 @@ fun HelpAndFeedbackSheetContent(
             text = "帮助与反馈",
             style = MaterialTheme.typography.titleMedium,
             textAlign = TextAlign.Center,
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp)
         )
@@ -55,7 +55,7 @@ fun HelpAndFeedbackSheetContent(
         Text(
             text = "如果您有任何问题或建议，请联系我们。",
             style = MaterialTheme.typography.bodySmall,
-            modifier = modifier.padding(bottom = 16.dp)
+            modifier = Modifier.padding(bottom = 16.dp)
         )
 
         Button(
@@ -66,17 +66,17 @@ fun HelpAndFeedbackSheetContent(
                     toastForClickButton()
                 }
             },
-            modifier = modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text("联系客服")
         }
 
-        Spacer(modifier = modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         Text(
             text = "常见问题",
             style = MaterialTheme.typography.titleSmall,
-            modifier = modifier.padding(bottom = 8.dp)
+            modifier = Modifier.padding(bottom = 8.dp)
         )
 
         LazyColumn {
