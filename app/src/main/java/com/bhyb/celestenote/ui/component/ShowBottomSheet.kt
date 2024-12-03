@@ -1,4 +1,4 @@
-package com.bhyb.celestenote.ui.screen.my.bottomsheet
+package com.bhyb.celestenote.ui.component
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api

@@ -1,4 +1,4 @@
-package com.bhyb.celestenote.ui.screen.my.bottomsheet
+package com.bhyb.celestenote.ui.screen.my.sheetcontent
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

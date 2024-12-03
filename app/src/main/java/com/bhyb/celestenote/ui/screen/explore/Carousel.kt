@@ -1,4 +1,4 @@
-package com.bhyb.celestenote.ui.screen.add
+package com.bhyb.celestenote.ui.screen.explore
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

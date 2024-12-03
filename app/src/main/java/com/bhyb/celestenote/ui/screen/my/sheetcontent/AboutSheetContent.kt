@@ -1,4 +1,4 @@
-package com.bhyb.celestenote.ui.screen.my.bottomsheet
+package com.bhyb.celestenote.ui.screen.my.sheetcontent
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +30,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.bhyb.celestenote.R
+import com.bhyb.celestenote.ui.component.ShowBottomSheet
 
 @Composable
 fun AboutSheetContent(

@@ -1,4 +1,4 @@
-package com.bhyb.celestenote.ui.screen.add.addeditnote
+package com.bhyb.celestenote.ui.screen.note.addeditnote
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -27,6 +27,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -55,6 +56,7 @@ fun AddEditNoteScreen(
     val context = LocalContext.current
     val noteTitle by viewModel.noteTitle
     val noteContent by viewModel.noteContent
+    val isNoteSaved by viewModel.isNoteSaved.collectAsState()
     val isSaveEnabled by remember {
         derivedStateOf {
             noteTitle.text.isNotBlank() || noteContent.text.isNotBlank()
@@ -99,9 +101,9 @@ fun AddEditNoteScreen(
                     }
                     IconButton(
                         onClick = { showMoreOptions = !showMoreOptions },
-                        enabled = isSaveEnabled
+                        // enabled = isNoteSaved
                     ) {
-                        Icon(Icons.Filled.MoreVert, "MoreVert")
+                        Icon(Icons.Filled.MoreVert, "更多")
                     }
                     DropdownMenu(
                         expanded = showMoreOptions,
@@ -113,21 +115,24 @@ fun AddEditNoteScreen(
                             leadingIcon = { Icon(Icons.Default.Lock, "") },
                             onClick = {
                                 showMoreOptions = false
-                            }
+                            },
+                            enabled = isNoteSaved
                         )
                         DropdownMenuItem(
                             text = { Text("上传") },
                             leadingIcon = { Icon(Icons.Default.Share, "") },
                             onClick = {
                                 showMoreOptions = false
-                            }
+                            },
+                            enabled = isNoteSaved
                         )
                         DropdownMenuItem(
                             text = { Text("删除", color = MaterialTheme.colorScheme.error) },
                             leadingIcon = { Icon(Icons.Default.Delete, "", tint = MaterialTheme.colorScheme.error) },
                             onClick = {
                                 showMoreOptions = false
-                            }
+                            },
+                            enabled = isNoteSaved
                         )
                     }
                 }

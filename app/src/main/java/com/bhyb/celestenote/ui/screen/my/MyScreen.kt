@@ -45,10 +45,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bhyb.celestenote.R
-import com.bhyb.celestenote.ui.screen.my.bottomsheet.AboutSheetContent
-import com.bhyb.celestenote.ui.screen.my.bottomsheet.HelpAndFeedbackSheetContent
-import com.bhyb.celestenote.ui.screen.my.bottomsheet.NotificationSheetContent
-import com.bhyb.celestenote.ui.screen.my.bottomsheet.ShowBottomSheet
+import com.bhyb.celestenote.ui.component.ShowBottomSheet
+import com.bhyb.celestenote.ui.screen.my.sheetcontent.AboutSheetContent
+import com.bhyb.celestenote.ui.screen.my.sheetcontent.HelpAndFeedbackSheetContent
+import com.bhyb.celestenote.ui.screen.my.sheetcontent.NotificationSheetContent
 
 data class MiddleRowItem(val icon: Int, val title: String, val onItemClick: () -> Unit)
 data class BottomColumnItem(
@@ -110,7 +110,7 @@ fun MyScreen(
         Spacer(modifier = Modifier.height(45.dp))
 
         Image(
-            painter = painterResource(id = R.drawable.ic_bottom_my_focused),
+            painter = painterResource(id = R.drawable.ic_bottom_my),
             contentDescription = "用户头像",
             modifier = Modifier
                 .size(80.dp)
@@ -135,10 +135,10 @@ fun MyScreen(
 
         MiddleRow(
             items = listOf(
-                MiddleRowItem(R.drawable.ic_my_sentence_excerpts, "句摘") {},
+                MiddleRowItem(R.drawable.ic_my_collect, "收藏") {},
                 MiddleRowItem(R.drawable.ic_my_recycle_bin, "回收站") {},
                 MiddleRowItem(R.drawable.ic_my_cloud_management, "云管理") {},
-                MiddleRowItem(R.drawable.ic_my_discover, "逛逛") {}
+                MiddleRowItem(R.drawable.ic_my_browse_history, "浏览记录") {}
             )
         )
 

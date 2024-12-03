@@ -2,7 +2,7 @@
     <string name="app_name">Celeste Note</string>
     <string name="bottombar_title_note">笔记</string>
     <string name="bottombar_title_my">我的</string>
-    <string name="bottombar_title_add">创作</string>
+    <string name="bottombar_title_explore">发现</string>
     <string name="note_category_title">笔记分类</string>
     <string name="no_more">没有更多了</string>
     <string name="functional_development">功能开发中</string>

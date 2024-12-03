@@ -1,4 +1,4 @@
-package com.bhyb.celestenote.ui.screen.my.bottomsheet
+package com.bhyb.celestenote.ui.screen.my.sheetcontent
 
 import android.content.ClipData
 import android.content.ClipboardManager

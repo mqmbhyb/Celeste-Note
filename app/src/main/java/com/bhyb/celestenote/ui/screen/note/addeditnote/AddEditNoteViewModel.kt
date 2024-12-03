@@ -1,4 +1,4 @@
-package com.bhyb.celestenote.ui.screen.add.addeditnote
+package com.bhyb.celestenote.ui.screen.note.addeditnote
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -10,7 +10,10 @@ import com.bhyb.celestenote.domain.model.Note
 import com.bhyb.celestenote.domain.usecase.NoteUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.Date
 import javax.inject.Inject
@@ -23,20 +26,23 @@ class AddEditNoteViewModel @Inject constructor(
     
     private val _noteTitle = mutableStateOf(
         NoteTextFieldState(
-        hint = "标 题"
+        hint = "标题"
     )
     )
     val noteTitle : State<NoteTextFieldState> = _noteTitle
 
     private val _noteContent = mutableStateOf(
         NoteTextFieldState(
-        hint = "Enter some content"
+        hint = "请输入正文"
     )
     )
     val noteContent : State<NoteTextFieldState> = _noteContent
 
     private val _eventFlow = MutableSharedFlow<ClickEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
+
+    private val _isNoteSaved = MutableStateFlow(false)
+    val isNoteSaved: StateFlow<Boolean> = _isNoteSaved.asStateFlow()
 
     private var currentNoteId: Int? = null
 
@@ -103,6 +109,7 @@ class AddEditNoteViewModel @Inject constructor(
                                 id = currentNoteId
                             )
                         )
+                        _isNoteSaved.value = true
                         _eventFlow.emit(ClickEvent.SaveNote)
                     } catch (e: InvalidNoteException) {
                         _eventFlow.emit(

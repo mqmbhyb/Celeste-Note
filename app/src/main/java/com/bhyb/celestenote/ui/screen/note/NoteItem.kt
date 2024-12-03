@@ -52,26 +52,26 @@ fun NoteItem(
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            note.title?.let {
+            if (note.title?.isNotBlank() == true) {
                 Text(
-                    text = it,
+                    text = note.title,
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
+                Spacer(modifier = Modifier.height(8.dp))
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            note.content?.let {
+            if (note.content?.isNotBlank() == true) {
                 Text(
-                    text = it,
+                    text = note.content,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 2,
                     overflow = TextOverflow.Clip
                 )
+                Spacer(modifier = Modifier.height(8.dp))
             }
-            Spacer(modifier = Modifier.height(10.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Start,
@@ -86,7 +86,7 @@ fun NoteItem(
                     fontSize = 10.sp
                 )
 
-                if (note.isUpload) {
+                if (note.categoryId == 2) {
                     Spacer(modifier = Modifier.width(6.dp))
                     Box(
                         modifier = Modifier

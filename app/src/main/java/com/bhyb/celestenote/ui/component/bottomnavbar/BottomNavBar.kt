@@ -80,7 +80,7 @@ fun BottomNav() {
     ){
         Scaffold(
             bottomBar = {
-                if (currentRoute.value in listOf(BottomNavBarScreen.Note.route, BottomNavBarScreen.Add.route, BottomNavBarScreen.My.route)) {
+                if (currentRoute.value in listOf(BottomNavBarScreen.Note.route, BottomNavBarScreen.Explore.route, BottomNavBarScreen.My.route)) {
                     BottomBar(navController = navController)
                 }
             }
@@ -108,7 +108,7 @@ fun BottomNav() {
 fun BottomBar(navController: NavController) {
     val screens = listOf(
         BottomNavBarScreen.Note,
-        BottomNavBarScreen.Add,
+        BottomNavBarScreen.Explore,
         BottomNavBarScreen.My
     )
 
@@ -168,7 +168,7 @@ fun AddItem(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Icon(
-                painter = painterResource(id = if (selected) screen.icon_focused else screen.icon),
+                painter = painterResource(id = screen.icon),
                 contentDescription = "icon",
                 tint = contentColor
             )

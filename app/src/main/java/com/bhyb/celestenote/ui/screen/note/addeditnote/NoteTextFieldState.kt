@@ -1,4 +1,4 @@
-package com.bhyb.celestenote.ui.screen.add.addeditnote
+package com.bhyb.celestenote.ui.screen.note.addeditnote
 
 data class NoteTextFieldState(
     val text: String = "",

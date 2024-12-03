@@ -27,15 +27,22 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bhyb.celestenote.R
 import com.bhyb.celestenote.domain.model.Note
+import com.bhyb.celestenote.ui.component.GridItem
+import com.bhyb.celestenote.ui.component.GridSection
+import com.bhyb.celestenote.ui.component.ShowBottomSheet
 import com.bhyb.celestenote.ui.screen.note.drawer.DrawerScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -52,6 +59,19 @@ fun NoteScreen(
     modifier: Modifier = Modifier
 ) {
     val notes by viewModel.notes.collectAsStateWithLifecycle(emptyList())
+
+    var showModalBottomSheet by remember { mutableStateOf(false) }
+    var sheetContent: @Composable (() -> Unit)? by remember { mutableStateOf(null) }
+
+    if (showModalBottomSheet && sheetContent != null) {
+        ShowBottomSheet(
+            sheetContent = sheetContent!!,
+            onDismissRequest = {
+                showModalBottomSheet = false
+                sheetContent = null
+            }
+        )
+    }
 
     Scaffold(
         topBar = {
@@ -90,6 +110,23 @@ fun NoteScreen(
                     IconButton(onClick = onSearchClicked) {
                         Icon(Icons.Filled.Search, "Search")
                     }
+                    IconButton(
+                        onClick = {
+                            sheetContent = {
+                                GridSection(
+                                    title = "工具", items = listOf(
+                                        GridItem(R.drawable.ic_tool_lockbox, "密码箱") { },
+                                        GridItem(R.drawable.ic_tool_todo, "待办") { },
+                                        GridItem(R.drawable.ic_tool_accounting, "记账") { },
+                                        GridItem(R.drawable.ic_tool_mindmap, "思维导图") { }
+                                    )
+                                )
+                            }
+                            showModalBottomSheet = true
+                        }
+                    ) {
+                        Icon(painterResource(R.drawable.ic_tool) , "工具", modifier = Modifier.size(25.dp))
+                    }
                     IconButton(onClick = onAddNoteClicked) {
                         Icon(Icons.Filled.Add, "新建笔记")
                     }
@@ -120,14 +157,14 @@ fun NotesClassificationDisplay(
 ) {
     LazyColumn(
         modifier = modifier
-            .padding(16.dp)
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+            .padding(horizontal = 16.dp)
+            .fillMaxSize()
     ) {
         items(notes) { note ->
             NoteItem(
                 note = note,
                 modifier = Modifier
+                    .padding(top = 16.dp)
                     .fillMaxWidth()
                     .clickable {
                         // TODO 短按打开笔记详情 长按弹出编辑项（删除、加密、上传）

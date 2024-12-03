@@ -9,11 +9,11 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.bhyb.celestenote.ui.screen.add.AddScreen
-import com.bhyb.celestenote.ui.screen.add.addeditnote.AddEditNoteScreen
+import com.bhyb.celestenote.ui.screen.explore.ExploreScreen
 import com.bhyb.celestenote.ui.screen.my.MyScreen
 import com.bhyb.celestenote.ui.screen.note.NoteScreen
 import com.bhyb.celestenote.ui.screen.note.SearchScreen
+import com.bhyb.celestenote.ui.screen.note.addeditnote.AddEditNoteScreen
 import com.bhyb.celestenote.ui.screen.note.drawer.DrawerScreen
 import kotlinx.coroutines.CoroutineScope
 
@@ -48,12 +48,8 @@ fun BottomNavHost(
             )
         }
 
-        composable(BottomNavBarScreen.Add.route) {
-            AddScreen(
-                onAddNoteClicked = {
-                    navController.navigate(ROUTE_ADD_Edit_NOTE_SCREEN)
-                }
-            )
+        composable(BottomNavBarScreen.Explore.route) {
+            ExploreScreen()
         }
 
         composable(BottomNavBarScreen.My.route) {
