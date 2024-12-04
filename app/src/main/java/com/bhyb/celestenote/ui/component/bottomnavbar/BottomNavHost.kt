@@ -45,6 +45,7 @@ fun BottomNavHost(
                 onSearchClicked = {
                     navController.navigate(ROUTE_SEARCH_SCREEN)
                 },
+                navController = navController
             )
         }
 

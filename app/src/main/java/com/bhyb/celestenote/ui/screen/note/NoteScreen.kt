@@ -2,6 +2,7 @@ package com.bhyb.celestenote.ui.screen.note
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -33,16 +34,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.bhyb.celestenote.R
 import com.bhyb.celestenote.domain.model.Note
 import com.bhyb.celestenote.ui.component.GridItem
 import com.bhyb.celestenote.ui.component.GridSection
 import com.bhyb.celestenote.ui.component.ShowBottomSheet
+import com.bhyb.celestenote.ui.component.bottomnavbar.ROUTE_ADD_Edit_NOTE_SCREEN
 import com.bhyb.celestenote.ui.screen.note.drawer.DrawerScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -55,6 +59,7 @@ fun NoteScreen(
     selectedItem: DrawerScreen,
     onSearchClicked: () -> Unit,
     onAddNoteClicked: () -> Unit,
+    navController: NavController,
     viewModel: NoteViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
@@ -141,9 +146,9 @@ fun NoteScreen(
                 .background(colorResource(id = R.color.screen_background_color))
         ) {
             when (selectedItem) {
-                DrawerScreen.AllNote -> NotesClassificationDisplay(notes)
-                DrawerScreen.Uncategorized -> NotesClassificationDisplay(notes.filter { false })
-                DrawerScreen.LockNote -> NotesClassificationDisplay(notes.filter { false })
+                DrawerScreen.AllNote -> NotesClassificationDisplay(notes, navController)
+                DrawerScreen.Uncategorized -> NotesClassificationDisplay(notes.filter { false }, navController)
+                DrawerScreen.LockNote -> NotesClassificationDisplay(notes.filter { false }, navController)
             }
         }
     }
@@ -153,6 +158,7 @@ fun NoteScreen(
 @Composable
 fun NotesClassificationDisplay(
     notes: List<Note>,
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -166,8 +172,19 @@ fun NotesClassificationDisplay(
                 modifier = Modifier
                     .padding(top = 16.dp)
                     .fillMaxWidth()
-                    .clickable {
-                        // TODO 短按打开笔记详情 长按弹出编辑项（删除、加密、上传）
+                    .pointerInput(Unit) {
+                        detectTapGestures(
+                            onLongPress = {
+                                // 长按弹出编辑项（删除、加密、上传）
+                            },
+                            onPress = {
+                            },
+                            onTap = {
+                                navController.navigate(
+                                    ROUTE_ADD_Edit_NOTE_SCREEN + "?noteId=${note.id}"
+                                )
+                            }
+                        )
                     }
             )
         }

@@ -27,7 +27,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -56,10 +56,17 @@ fun AddEditNoteScreen(
     val context = LocalContext.current
     val noteTitle by viewModel.noteTitle
     val noteContent by viewModel.noteContent
-    val isNoteSaved by viewModel.isNoteSaved.collectAsState()
     val isSaveEnabled by remember {
         derivedStateOf {
             noteTitle.text.isNotBlank() || noteContent.text.isNotBlank()
+        }
+    }
+    val focusManager = LocalFocusManager.current
+    var titleFocusState by remember { mutableStateOf(false) }
+    var contentFocusState by remember { mutableStateOf(false) }
+    val isGetFocus by remember {
+        derivedStateOf {
+            titleFocusState || contentFocusState
         }
     }
 
@@ -70,7 +77,7 @@ fun AddEditNoteScreen(
                     PassParametersToast.show(context, message = event.message)
                 }
                 is AddEditNoteViewModel.ClickEvent.SaveNote -> {
-                    navController.navigateUp()
+                    focusManager.clearFocus()
                 }
             }
         }
@@ -90,50 +97,50 @@ fun AddEditNoteScreen(
                 },
                 title = { /* 无标题 */ },
                 actions = {
-                    IconButton(
-                        onClick = {
-                            viewModel.onEvent(AddEditNoteEvent.SaveNote)
-                            //todo 调用修改笔记的用例更新updateTime
-                        },
-                        enabled = isSaveEnabled
-                    ) {
-                        Icon(Icons.Filled.Check, "保存笔记")
-                    }
-                    IconButton(
-                        onClick = { showMoreOptions = !showMoreOptions },
-                        // enabled = isNoteSaved
-                    ) {
-                        Icon(Icons.Filled.MoreVert, "更多")
-                    }
-                    DropdownMenu(
-                        expanded = showMoreOptions,
-                        onDismissRequest = { showMoreOptions = false },
-                        modifier = Modifier.background(Color.White)
-                    ) {
-                        DropdownMenuItem(
-                            text = { Text("加密") },
-                            leadingIcon = { Icon(Icons.Default.Lock, "") },
+                    if (isGetFocus) {
+                        IconButton(
                             onClick = {
-                                showMoreOptions = false
+                                viewModel.onEvent(AddEditNoteEvent.SaveNote)
+                                //todo 调用修改笔记的用例更新updateTime
                             },
-                            enabled = isNoteSaved
-                        )
-                        DropdownMenuItem(
-                            text = { Text("上传") },
-                            leadingIcon = { Icon(Icons.Default.Share, "") },
-                            onClick = {
-                                showMoreOptions = false
-                            },
-                            enabled = isNoteSaved
-                        )
-                        DropdownMenuItem(
-                            text = { Text("删除", color = MaterialTheme.colorScheme.error) },
-                            leadingIcon = { Icon(Icons.Default.Delete, "", tint = MaterialTheme.colorScheme.error) },
-                            onClick = {
-                                showMoreOptions = false
-                            },
-                            enabled = isNoteSaved
-                        )
+                            enabled = isSaveEnabled
+                        ) {
+                            Icon(Icons.Filled.Check, "保存笔记")
+                        }
+                    } else {
+                        IconButton(
+                            onClick = { showMoreOptions = !showMoreOptions },
+                            enabled = isSaveEnabled
+                        ) {
+                            Icon(Icons.Filled.MoreVert, "更多")
+                        }
+                        DropdownMenu(
+                            expanded = showMoreOptions,
+                            onDismissRequest = { showMoreOptions = false },
+                            modifier = Modifier.background(Color.White)
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text("加密") },
+                                leadingIcon = { Icon(Icons.Default.Lock, "") },
+                                onClick = {
+                                    showMoreOptions = false
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("上传") },
+                                leadingIcon = { Icon(Icons.Default.Share, "") },
+                                onClick = {
+                                    showMoreOptions = false
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("删除", color = MaterialTheme.colorScheme.error) },
+                                leadingIcon = { Icon(Icons.Default.Delete, "", tint = MaterialTheme.colorScheme.error) },
+                                onClick = {
+                                    showMoreOptions = false
+                                }
+                            )
+                        }
                     }
                 }
             )
@@ -153,6 +160,11 @@ fun AddEditNoteScreen(
                     viewModel.onEvent(AddEditNoteEvent.EnteredTitle(it))
                 },
                 onFocusChange = {
+                    if (it.isFocused) {
+                        titleFocusState = true
+                    } else if (!it.isFocused) {
+                        titleFocusState = false
+                    }
                     viewModel.onEvent(AddEditNoteEvent.ChangeTitleFocus(it))
                 },
                 isHintVisible = titleState.isHintVisible,
@@ -167,10 +179,15 @@ fun AddEditNoteScreen(
                     viewModel.onEvent(AddEditNoteEvent.EnteredContent(it))
                 },
                 onFocusChange = {
+                    if (it.isFocused) {
+                        contentFocusState = true
+                    } else if (!it.isFocused) {
+                        contentFocusState = false
+                    }
                     viewModel.onEvent(AddEditNoteEvent.ChangeContentFocus(it))
                 },
                 isHintVisible = contentState.isHintVisible,
-                singleLine = true,
+                singleLine = false,
                 textStyle = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.fillMaxHeight()
             )

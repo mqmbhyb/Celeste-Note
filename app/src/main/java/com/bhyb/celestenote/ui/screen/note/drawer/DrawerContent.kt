@@ -2,6 +2,7 @@ package com.bhyb.celestenote.ui.screen.note.drawer
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalDrawerSheet
@@ -11,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bhyb.celestenote.R
@@ -33,7 +34,6 @@ fun DrawerContent(
         ) {
             Text(
                 stringResource(id = R.string.note_category_title),
-                color = colorResource(id = R.color.bottom_navbar_color),
                 modifier = Modifier
                     .padding(start = 20.dp, top = 10.dp, bottom = 10.dp)
             )
@@ -44,7 +44,7 @@ fun DrawerContent(
         drawerItems.forEach { item ->
             NavigationDrawerItem(
                 label = { Text(item.title) },
-                icon = { Icon(item.icon, contentDescription = null) },
+                icon = { Icon(painterResource(item.icon) , contentDescription = null, modifier = Modifier.size(20.dp)) },
                 selected = item == selectedItem,
                 onClick = { onItemSelected(item) },
                 modifier = Modifier.padding(8.dp)

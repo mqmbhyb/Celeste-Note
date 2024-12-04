@@ -79,9 +79,7 @@ fun NoteItem(
             ) {
                 Text(
                     text = updateTime,
-                    modifier = Modifier
-                        .padding(horizontal = 4.dp)
-                        .wrapContentSize(Alignment.Center),
+                    modifier = Modifier.wrapContentSize(Alignment.Center),
                     color = colorResource(R.color.note_info_color),
                     fontSize = 10.sp
                 )
