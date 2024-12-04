@@ -22,16 +22,12 @@ class AddEditNoteViewModel @Inject constructor(
 ): ViewModel() {
     
     private val _noteTitle = mutableStateOf(
-        NoteTextFieldState(
-        hint = "标题"
-    )
+        NoteTextFieldState(hint = "标题")
     )
     val noteTitle : State<NoteTextFieldState> = _noteTitle
 
     private val _noteContent = mutableStateOf(
-        NoteTextFieldState(
-        hint = "请输入正文"
-    )
+        NoteTextFieldState(hint = "请输入正文")
     )
     val noteContent : State<NoteTextFieldState> = _noteContent
 
@@ -49,13 +45,13 @@ class AddEditNoteViewModel @Inject constructor(
                         _noteTitle.value = note.title?.let {
                             noteTitle.value.copy(
                                 text = it,
-                                isHintVisible = false
+                                isHintVisible = it.isBlank()
                             )
                         }!!
                         _noteContent.value = note.content?.let {
                             noteContent.value.copy(
                                 text = it,
-                                isHintVisible = false
+                                isHintVisible = it.isBlank()
                             )
                         }!!
                     }

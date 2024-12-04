@@ -101,7 +101,7 @@ fun AddEditNoteScreen(
                         IconButton(
                             onClick = {
                                 viewModel.onEvent(AddEditNoteEvent.SaveNote)
-                                //todo 调用修改笔记的用例更新updateTime
+                                //todo 调用用例更新updateTime,在笔记修改后
                             },
                             enabled = isSaveEnabled
                         ) {

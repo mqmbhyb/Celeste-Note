@@ -34,7 +34,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -45,9 +48,11 @@ import com.bhyb.celestenote.R
 import com.bhyb.celestenote.domain.model.Note
 import com.bhyb.celestenote.ui.component.GridItem
 import com.bhyb.celestenote.ui.component.GridSection
+import com.bhyb.celestenote.ui.component.PassParametersToast
 import com.bhyb.celestenote.ui.component.ShowBottomSheet
-import com.bhyb.celestenote.ui.component.bottomnavbar.ROUTE_ADD_Edit_NOTE_SCREEN
+import com.bhyb.celestenote.ui.component.bottomnavbar.ROUTE_ADD_EDIT_NOTE_SCREEN
 import com.bhyb.celestenote.ui.screen.note.drawer.DrawerScreen
+import com.bhyb.celestenote.ui.screen.note.noteoperation.NoteOperation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -76,6 +81,20 @@ fun NoteScreen(
                 sheetContent = null
             }
         )
+    }
+
+    val context = LocalContext.current
+    val toastForClickTool = {
+        PassParametersToast.show(context, R.string.functional_development)
+    }
+
+    val onNoteItemLongPress = {
+        sheetContent = {
+            NoteOperation {
+                showModalBottomSheet = false
+            }
+        }
+        showModalBottomSheet = true
     }
 
     Scaffold(
@@ -119,11 +138,13 @@ fun NoteScreen(
                         onClick = {
                             sheetContent = {
                                 GridSection(
-                                    title = "工具", items = listOf(
-                                        GridItem(R.drawable.ic_tool_lockbox, "密码箱") { },
-                                        GridItem(R.drawable.ic_tool_todo, "待办") { },
-                                        GridItem(R.drawable.ic_tool_accounting, "记账") { },
-                                        GridItem(R.drawable.ic_tool_mindmap, "思维导图") { }
+                                    title = "常用工具",
+                                    imageSize = 40.dp,
+                                    items = listOf(
+                                        GridItem(R.drawable.ic_tool_lockbox, "密码箱") { toastForClickTool() },
+                                        GridItem(R.drawable.ic_tool_todo, "待办") { toastForClickTool() },
+                                        GridItem(R.drawable.ic_tool_accounting, "记账") { toastForClickTool() },
+                                        GridItem(R.drawable.ic_tool_mindmap, "思维导图") { toastForClickTool() }
                                     )
                                 )
                             }
@@ -146,9 +167,9 @@ fun NoteScreen(
                 .background(colorResource(id = R.color.screen_background_color))
         ) {
             when (selectedItem) {
-                DrawerScreen.AllNote -> NotesClassificationDisplay(notes, navController)
-                DrawerScreen.Uncategorized -> NotesClassificationDisplay(notes.filter { false }, navController)
-                DrawerScreen.LockNote -> NotesClassificationDisplay(notes.filter { false }, navController)
+                DrawerScreen.AllNote -> NotesClassificationDisplay(notes, onNoteItemLongPress, navController)
+                DrawerScreen.Uncategorized -> NotesClassificationDisplay(notes.filter { false }, onNoteItemLongPress, navController)
+                DrawerScreen.LockNote -> NotesClassificationDisplay(notes.filter { false }, onNoteItemLongPress, navController)
             }
         }
     }
@@ -158,9 +179,12 @@ fun NoteScreen(
 @Composable
 fun NotesClassificationDisplay(
     notes: List<Note>,
+    onNoteItemLongPress: () -> Unit,
     navController: NavController,
     modifier: Modifier = Modifier
 ) {
+    val hapticFeedback = LocalHapticFeedback.current
+
     LazyColumn(
         modifier = modifier
             .padding(horizontal = 16.dp)
@@ -175,13 +199,12 @@ fun NotesClassificationDisplay(
                     .pointerInput(Unit) {
                         detectTapGestures(
                             onLongPress = {
-                                // 长按弹出编辑项（删除、加密、上传）
-                            },
-                            onPress = {
+                                onNoteItemLongPress()
+                                hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                             },
                             onTap = {
                                 navController.navigate(
-                                    ROUTE_ADD_Edit_NOTE_SCREEN + "?noteId=${note.id}"
+                                    ROUTE_ADD_EDIT_NOTE_SCREEN + "?noteId=${note.id}"
                                 )
                             }
                         )

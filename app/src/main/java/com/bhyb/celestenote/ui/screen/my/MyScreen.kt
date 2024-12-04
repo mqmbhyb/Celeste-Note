@@ -62,10 +62,12 @@ data class BottomColumnItem(
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun MyScreen(
+    onSettingClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var showModalBottomSheet by remember { mutableStateOf(false) }
     var sheetContent: @Composable (() -> Unit)? by remember { mutableStateOf(null) }
+    var isClicked by remember { mutableStateOf(false) }
 
     if (showModalBottomSheet && sheetContent != null) {
         ShowBottomSheet(
@@ -102,7 +104,7 @@ fun MyScreen(
     ) {
         IconButton(
             modifier = Modifier.align(Alignment.End),
-            onClick = { }
+            onClick = onSettingClicked
         ) {
             Icon(Icons.Filled.Settings, contentDescription = "设置")
         }
@@ -120,7 +122,9 @@ fun MyScreen(
         Spacer(modifier = Modifier.height(8.dp))
 
         Button(
-            onClick = { },
+            onClick = {
+                isClicked = !isClicked
+            },
             colors = ButtonDefaults.buttonColors(Color.White.copy(0.8f)),
             border = BorderStroke(3.dp, Color.White),
             elevation = ButtonDefaults.buttonElevation(
@@ -128,7 +132,7 @@ fun MyScreen(
                 pressedElevation = 10.dp
             )
         ) {
-            Text("点击登录", color = Color.Black)
+            Text("点击登录", color = if (isClicked) Color.Gray else Color.Black)
         }
 
         Spacer(modifier = Modifier.height(16.dp))

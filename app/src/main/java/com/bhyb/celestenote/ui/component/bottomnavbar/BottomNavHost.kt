@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.bhyb.celestenote.ui.screen.explore.ExploreScreen
 import com.bhyb.celestenote.ui.screen.my.MyScreen
+import com.bhyb.celestenote.ui.screen.my.SettingScreen
 import com.bhyb.celestenote.ui.screen.note.NoteScreen
 import com.bhyb.celestenote.ui.screen.note.SearchScreen
 import com.bhyb.celestenote.ui.screen.note.addeditnote.AddEditNoteScreen
@@ -20,8 +21,9 @@ import kotlinx.coroutines.CoroutineScope
 val slideIn = slideInHorizontally(initialOffsetX = { it })
 val slideOut = slideOutHorizontally(targetOffsetX = { it })
 
-const val ROUTE_ADD_Edit_NOTE_SCREEN = "add_edit_note_screen"
+const val ROUTE_ADD_EDIT_NOTE_SCREEN = "add_edit_note_screen"
 const val ROUTE_SEARCH_SCREEN = "search_screen"
+const val ROUTE_SETTING_SCREEN = "setting_screen"
 
 @Composable
 fun BottomNavHost(
@@ -40,7 +42,7 @@ fun BottomNavHost(
                 scope,
                 selectedItem,
                 onAddNoteClicked = {
-                    navController.navigate(ROUTE_ADD_Edit_NOTE_SCREEN)
+                    navController.navigate(ROUTE_ADD_EDIT_NOTE_SCREEN)
                 },
                 onSearchClicked = {
                     navController.navigate(ROUTE_SEARCH_SCREEN)
@@ -54,11 +56,15 @@ fun BottomNavHost(
         }
 
         composable(BottomNavBarScreen.My.route) {
-            MyScreen()
+            MyScreen(
+                onSettingClicked = {
+                    navController.navigate(ROUTE_SETTING_SCREEN)
+                }
+            )
         }
 
         composable(
-            route = "$ROUTE_ADD_Edit_NOTE_SCREEN?noteId={noteId}",
+            route = "$ROUTE_ADD_EDIT_NOTE_SCREEN?noteId={noteId}",
             arguments = listOf(
                 navArgument(name = "noteId") {
                     type = NavType.IntType
@@ -81,6 +87,16 @@ fun BottomNavHost(
             popExitTransition = { slideOut }
         ) {
             SearchScreen()
+        }
+
+        composable(
+            ROUTE_SETTING_SCREEN,
+            enterTransition = { slideIn },
+            exitTransition = { slideOut },
+            popEnterTransition = { slideIn },
+            popExitTransition = { slideOut }
+        ) {
+            SettingScreen()
         }
     }
 }
