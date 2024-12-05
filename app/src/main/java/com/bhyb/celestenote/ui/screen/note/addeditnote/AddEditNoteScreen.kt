@@ -1,6 +1,7 @@
 package com.bhyb.celestenote.ui.screen.note.addeditnote
 
 import android.annotation.SuppressLint
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +16,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,6 +25,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -50,23 +53,35 @@ fun AddEditNoteScreen(
     modifier: Modifier = Modifier,
     viewModel: AddEditNoteViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
     var showMoreOptions by remember { mutableStateOf(false) }
+    var showConfirmDialog by remember { mutableStateOf(false) }
+
     val titleState = viewModel.noteTitle.value
     val contentState = viewModel.noteContent.value
-    val context = LocalContext.current
     val noteTitle by viewModel.noteTitle
     val noteContent by viewModel.noteContent
+    var titleFocusState by remember { mutableStateOf(false) }
+    var contentFocusState by remember { mutableStateOf(false) }
+
+    var originalTitle by remember { mutableStateOf("") }
+    var originalContent by remember { mutableStateOf("") }
+
     val isSaveEnabled by remember {
         derivedStateOf {
             noteTitle.text.isNotBlank() || noteContent.text.isNotBlank()
         }
     }
-    val focusManager = LocalFocusManager.current
-    var titleFocusState by remember { mutableStateOf(false) }
-    var contentFocusState by remember { mutableStateOf(false) }
     val isGetFocus by remember {
         derivedStateOf {
             titleFocusState || contentFocusState
+        }
+    }
+
+    val isTurnsOut by remember {
+        derivedStateOf {
+            noteTitle.text != originalTitle || noteContent.text != originalContent
         }
     }
 
@@ -81,6 +96,51 @@ fun AddEditNoteScreen(
                 }
             }
         }
+        val (title, content) = viewModel.getOriginalNoteContent()
+        originalTitle = title ?: ""
+        originalContent = content ?: ""
+    }
+
+    val handleBack = {
+        if (isTurnsOut && isGetFocus || !isSaveEnabled) {
+            showConfirmDialog = true
+        }  else {
+            navController.navigateUp()
+        }
+    }
+
+    // 监听返回事件
+    BackHandler {
+        handleBack()
+    }
+
+    if (showConfirmDialog) {
+        AlertDialog(
+            onDismissRequest = {},
+            title = { Text("你尚未保存此次修改") },
+            text = { Text("是否保存对此笔记的修改?") },
+            confirmButton = {
+                TextButton(onClick = {
+                    showConfirmDialog = false
+                    if (!isSaveEnabled) {
+                        viewModel.onEvent(AddEditNoteEvent.DeleteNotes)
+                    } else {
+                        viewModel.onEvent(AddEditNoteEvent.SaveNote)
+                    }
+                    navController.navigateUp()
+                }) {
+                    Text("保存")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = {
+                    showConfirmDialog = false
+                    navController.navigateUp()
+                }) {
+                    Text("不保存")
+                }
+            }
+        )
     }
 
     Scaffold(
@@ -91,7 +151,7 @@ fun AddEditNoteScreen(
                     titleContentColor = Color.Black,
                 ),
                 navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
+                    IconButton(onClick = { handleBack() }) {
                         Icon(Icons.AutoMirrored.Default.ArrowBack, "ArrowBack")
                     }
                 },
@@ -160,11 +220,7 @@ fun AddEditNoteScreen(
                     viewModel.onEvent(AddEditNoteEvent.EnteredTitle(it))
                 },
                 onFocusChange = {
-                    if (it.isFocused) {
-                        titleFocusState = true
-                    } else if (!it.isFocused) {
-                        titleFocusState = false
-                    }
+                    titleFocusState = it.isFocused
                     viewModel.onEvent(AddEditNoteEvent.ChangeTitleFocus(it))
                 },
                 isHintVisible = titleState.isHintVisible,
@@ -179,11 +235,7 @@ fun AddEditNoteScreen(
                     viewModel.onEvent(AddEditNoteEvent.EnteredContent(it))
                 },
                 onFocusChange = {
-                    if (it.isFocused) {
-                        contentFocusState = true
-                    } else if (!it.isFocused) {
-                        contentFocusState = false
-                    }
+                    contentFocusState = it.isFocused
                     viewModel.onEvent(AddEditNoteEvent.ChangeContentFocus(it))
                 },
                 isHintVisible = contentState.isHintVisible,

@@ -109,7 +109,31 @@ class AddEditNoteViewModel @Inject constructor(
                     }
                 }
             }
+
+            is AddEditNoteEvent.DeleteNotes -> {
+                viewModelScope.launch {
+                    try {
+                        currentNoteId?.let { id ->
+                            noteUseCases.deleteNotes(listOf(id))
+                        }
+                        _eventFlow.emit(ClickEvent.ShowToast(message = "笔记已删除"))
+                    } catch (e: Exception) {
+                        _eventFlow.emit(
+                            ClickEvent.ShowToast(
+                                message = e.message ?: "删除笔记失败"
+                            )
+                        )
+                    }
+                }
+            }
         }
+    }
+
+    suspend fun getOriginalNoteContent(): Pair<String?, String?> {
+        return currentNoteId?.let { id ->
+            val note = noteUseCases.getNote(id)
+            note?.let { Pair(it.title, it.content) } ?: Pair("", "")
+        } ?: Pair("", "")
     }
 
     sealed class ClickEvent {
