@@ -65,9 +65,6 @@ fun AddEditNoteScreen(
     var titleFocusState by remember { mutableStateOf(false) }
     var contentFocusState by remember { mutableStateOf(false) }
 
-    var originalTitle by remember { mutableStateOf("") }
-    var originalContent by remember { mutableStateOf("") }
-
     val isSaveEnabled by remember {
         derivedStateOf {
             noteTitle.text.isNotBlank() || noteContent.text.isNotBlank()
@@ -76,12 +73,6 @@ fun AddEditNoteScreen(
     val isGetFocus by remember {
         derivedStateOf {
             titleFocusState || contentFocusState
-        }
-    }
-
-    val isTurnsOut by remember {
-        derivedStateOf {
-            noteTitle.text != originalTitle || noteContent.text != originalContent
         }
     }
 
@@ -96,13 +87,10 @@ fun AddEditNoteScreen(
                 }
             }
         }
-        val (title, content) = viewModel.getOriginalNoteContent()
-        originalTitle = title ?: ""
-        originalContent = content ?: ""
     }
 
     val handleBack = {
-        if (isTurnsOut && isGetFocus || !isSaveEnabled) {
+        if (viewModel.isModified && (isSaveEnabled || isGetFocus)) {
             showConfirmDialog = true
         }  else {
             navController.navigateUp()

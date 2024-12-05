@@ -34,6 +34,16 @@ class AddEditNoteViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<ClickEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
+    private val _originalTitle = mutableStateOf(NoteTextFieldState(hint = "标题"))
+    val originalTitle: State<NoteTextFieldState> = _originalTitle
+
+    private val _originalContent = mutableStateOf(NoteTextFieldState(hint = "请输入正文"))
+    val originalContent: State<NoteTextFieldState> = _originalContent
+
+    val isModified: Boolean
+        get() = _noteTitle.value.text != originalTitle.value.text ||
+                _noteContent.value.text != originalContent.value.text
+
     private var currentNoteId: Int? = null
 
     init {
@@ -54,6 +64,8 @@ class AddEditNoteViewModel @Inject constructor(
                                 isHintVisible = it.isBlank()
                             )
                         }!!
+                        _originalTitle.value = _noteTitle.value
+                        _originalContent.value = _noteContent.value
                     }
                 }
             }
@@ -99,6 +111,8 @@ class AddEditNoteViewModel @Inject constructor(
                                 id = currentNoteId
                             )
                         )
+                        _originalTitle.value = _noteTitle.value.copy()
+                        _originalContent.value = _noteContent.value.copy()
                         _eventFlow.emit(ClickEvent.SaveNote)
                     } catch (e: InvalidNoteException) {
                         _eventFlow.emit(
@@ -116,6 +130,8 @@ class AddEditNoteViewModel @Inject constructor(
                         currentNoteId?.let { id ->
                             noteUseCases.deleteNotes(listOf(id))
                         }
+                        _originalTitle.value = NoteTextFieldState(hint = "标题")
+                        _originalContent.value = NoteTextFieldState(hint = "请输入正文")
                         _eventFlow.emit(ClickEvent.ShowToast(message = "笔记已删除"))
                     } catch (e: Exception) {
                         _eventFlow.emit(
@@ -127,13 +143,6 @@ class AddEditNoteViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    suspend fun getOriginalNoteContent(): Pair<String?, String?> {
-        return currentNoteId?.let { id ->
-            val note = noteUseCases.getNote(id)
-            note?.let { Pair(it.title, it.content) } ?: Pair("", "")
-        } ?: Pair("", "")
     }
 
     sealed class ClickEvent {
