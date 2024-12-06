@@ -37,14 +37,15 @@ import com.bhyb.celestenote.domain.util.formatDateTime
 @Composable
 fun NoteItem(
     note: Note,
+    isLastItem: Boolean,
     modifier: Modifier = Modifier
 ) {
     val updateTime = formatDateTime(note.updateTime)
 
     Card(
-        modifier = modifier,
         shape = RoundedCornerShape(8.dp),
-        elevation = CardDefaults.cardElevation(1.dp)
+        elevation = CardDefaults.cardElevation(1.dp),
+        modifier = modifier
     ) {
         Column(
             modifier = Modifier
@@ -105,4 +106,9 @@ fun NoteItem(
             }
         }
     }
+
+    if (isLastItem) {
+        Spacer(modifier = Modifier.height(16.dp))
+    }
+
 }

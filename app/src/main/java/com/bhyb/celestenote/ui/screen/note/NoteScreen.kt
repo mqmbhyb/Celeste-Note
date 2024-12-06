@@ -14,7 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.PlayArrow
@@ -186,29 +186,39 @@ fun NotesClassificationDisplay(
 ) {
     val hapticFeedback = LocalHapticFeedback.current
 
-    LazyColumn(
-        modifier = modifier
-            .padding(horizontal = 16.dp)
-            .fillMaxSize()
-    ) {
-        items(notes) { note ->
-            NoteItem(
-                note = note,
-                modifier = Modifier
-                    .padding(top = 16.dp)
-                    .fillMaxWidth()
-                    .combinedClickable(
-                        onClick = {
-                            navController.navigate(
-                                ROUTE_ADD_EDIT_NOTE_SCREEN + "?noteId=${note.id}"
-                            )
-                        },
-                        onLongClick = {
-                            onNoteItemLongPress()
-                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                        }
-                    )
-            )
+    if (notes.isEmpty()) {
+        Box(
+            modifier = modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text("没有笔记")
+        }
+    } else{
+        LazyColumn(
+            modifier = modifier
+                .padding(horizontal = 16.dp)
+                .fillMaxSize()
+        ) {
+            itemsIndexed(notes) { index, note ->
+                NoteItem(
+                    note = note,
+                    isLastItem = index == notes.lastIndex,
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .fillMaxWidth()
+                        .combinedClickable(
+                            onClick = {
+                                navController.navigate(
+                                    ROUTE_ADD_EDIT_NOTE_SCREEN + "?noteId=${note.id}"
+                                )
+                            },
+                            onLongClick = {
+                                onNoteItemLongPress()
+                                hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                            }
+                        )
+                )
+            }
         }
     }
 }

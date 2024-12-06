@@ -11,6 +11,7 @@ import com.bhyb.celestenote.domain.usecase.noteusecase.DeleteNotes
 import com.bhyb.celestenote.domain.usecase.noteusecase.GetNote
 import com.bhyb.celestenote.domain.usecase.noteusecase.GetNoteByCategory
 import com.bhyb.celestenote.domain.usecase.noteusecase.GetNotes
+import com.bhyb.celestenote.domain.usecase.noteusecase.UpdateNote
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,7 +46,8 @@ object AppModule {
             getNotes = GetNotes(repository),
             deleteNotes = DeleteNotes(repository),
             getNoteByCategory = GetNoteByCategory(repository),
-            getNote = GetNote(repository)
+            getNote = GetNote(repository),
+            updateNote = UpdateNote(repository)
         )
     }
 }
