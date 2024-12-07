@@ -85,7 +85,7 @@ fun NoteItem(
                     fontSize = 10.sp
                 )
 
-                if (note.categoryId == 2) {
+                if (note.isLock) {
                     Spacer(modifier = Modifier.width(6.dp))
                     Box(
                         modifier = Modifier

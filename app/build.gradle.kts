@@ -87,4 +87,6 @@ dependencies {
     implementation(libs.room.paging)
 
     implementation(libs.coil.compose)
+
+    implementation(libs.biometric)
 }

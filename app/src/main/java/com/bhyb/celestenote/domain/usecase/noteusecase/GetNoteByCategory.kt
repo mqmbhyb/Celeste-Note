@@ -5,7 +5,7 @@ import com.bhyb.celestenote.domain.repository.NoteRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetNoteByCategory(
-    private  val repository: NoteRepository
+    private val repository: NoteRepository
 ) {
     operator fun invoke(
         categoryId: Int

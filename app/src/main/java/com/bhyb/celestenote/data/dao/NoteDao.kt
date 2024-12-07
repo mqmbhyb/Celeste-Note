@@ -25,6 +25,9 @@ interface NoteDao {
     @Query("SELECT * FROM note WHERE category_id = :categoryId")
     fun getNoteByCategory(categoryId: Int): Flow<List<NoteEntity>>
 
+    @Query("SELECT * FROM note WHERE is_lock = 1")
+    fun getNoteByIsLock(): Flow<List<NoteEntity>>
+
     //彻底删除
     @Query("DELETE FROM note WHERE id IN (:noteIds)")
     suspend fun deleteNotesByIds(noteIds: List<Int>)

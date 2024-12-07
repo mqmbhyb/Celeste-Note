@@ -18,4 +18,6 @@ interface NoteRepository {
     suspend fun deleteNotesByIds(noteIds: List<Int>)
 
     fun queryNotesLike(searchQuery: String): Flow<List<Note>>
+
+    fun getNoteByIsLock(): Flow<List<Note>>
 }

@@ -90,13 +90,16 @@ class AddEditNoteViewModel @Inject constructor(
     private val noteCreateTime : MutableState<StateDefForDate> = _noteCreateTime
 
     private val _noteCategoryId = mutableStateOf(StateDefForInt())
-    val noteCategoryId: MutableState<StateDefForInt> = _noteCategoryId
+    private val noteCategoryId: MutableState<StateDefForInt> = _noteCategoryId
 
     private val _noteIsDelete = mutableStateOf(StateDefForBoolean())
     val noteIsDelete: MutableState<StateDefForBoolean> = _noteIsDelete
 
     private val _noteIsUpload = mutableStateOf(StateDefForBoolean())
     val noteIsUpload: MutableState<StateDefForBoolean> = _noteIsUpload
+
+    private val _noteIsLock = mutableStateOf(StateDefForBoolean())
+    var noteIsLock: MutableState<StateDefForBoolean> = _noteIsLock
 
     init {
         savedStateHandle.get<Int>("noteId")?.let { noteId ->
@@ -127,6 +130,9 @@ class AddEditNoteViewModel @Inject constructor(
                         }
                         _noteIsUpload.value = note.isUpload.let {
                             noteIsUpload.value.copy(boolean = it)
+                        }
+                        _noteIsLock.value = note.isLock.let {
+                            noteIsLock.value.copy(boolean = it)
                         }
                         _originalTitle.value = _noteTitle.value
                         _originalContent.value = _noteContent.value
@@ -177,9 +183,10 @@ class AddEditNoteViewModel @Inject constructor(
                                 content = noteContent.value.text,
                                 createTime = Date(),
                                 updateTime = Date(),
-                                categoryId = 1,
+                                categoryId = 0,
                                 isDelete = false,
                                 isUpload = false,
+                                isLock = false,
                                 id = currentNoteId
                             )
                         )
@@ -226,6 +233,7 @@ class AddEditNoteViewModel @Inject constructor(
                             categoryId = noteCategoryId.value.int,
                             isDelete = noteIsDelete.value.boolean,
                             isUpload = noteIsUpload.value.boolean,
+                            isLock = noteIsLock.value.boolean,
                             id = currentNoteId
                         )
                         noteUseCases.updateNote(updatedNote)

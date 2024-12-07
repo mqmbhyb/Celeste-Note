@@ -2,11 +2,12 @@ package com.bhyb.celestenote.domain.usecase.noteusecase
 
 import com.bhyb.celestenote.domain.model.Note
 import com.bhyb.celestenote.domain.repository.NoteRepository
+import kotlinx.coroutines.flow.Flow
 
-class GetNote(
+class GetNoteByIsLock(
     private val repository: NoteRepository
 ) {
-    suspend operator fun invoke(id: Int): Note? {
-        return repository.getNoteById(id)
+    operator fun invoke(): Flow<List<Note>> {
+        return repository.getNoteByIsLock()
     }
 }

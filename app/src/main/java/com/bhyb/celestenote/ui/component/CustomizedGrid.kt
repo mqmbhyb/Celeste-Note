@@ -36,6 +36,7 @@ fun GridSection(
     title: String? = null,
     imageSize: Dp,
     items: List<GridItem>,
+    shapeClip: Dp? = null,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -57,7 +58,7 @@ fun GridSection(
             columns = GridCells.Fixed(4)
         ) {
             items(items) { item ->
-                GridItemView(item = item, imageSize = imageSize)
+                GridItemView(item = item, imageSize = imageSize, shapeClip = shapeClip)
             }
         }
         Spacer(modifier = Modifier.height(20.dp))
@@ -67,7 +68,8 @@ fun GridSection(
 @Composable
 fun GridItemView(
     imageSize: Dp,
-    item: GridItem
+    item: GridItem,
+    shapeClip: Dp? = null
 ) {
     val imageResource = painterResource(id = item.icon)
     val painter = remember { imageResource }
@@ -84,7 +86,7 @@ fun GridItemView(
             contentDescription = item.title,
             modifier = Modifier
                 .size(imageSize)
-                .clip(shape = RoundedCornerShape(10.dp)),
+                .clip(shape = RoundedCornerShape(shapeClip?: 10.dp)),
             contentScale = ContentScale.Crop,
             colorFilter = item.color?.let { ColorFilter.tint(it) }
         )

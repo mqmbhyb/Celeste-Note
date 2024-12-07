@@ -24,11 +24,20 @@ fun NoteOperation(
         GridSection(
             imageSize = 25.dp,
             items = listOf(
-                GridItem(R.drawable.ic_move, "移动") {},
-                GridItem(R.drawable.ic_lock, "加密") {},
-                GridItem(R.drawable.ic_upload, "上传") {},
-                GridItem(R.drawable.ic_trash, "删除", MaterialTheme.colorScheme.error) {}
-            )
+                GridItem(R.drawable.ic_move, "移动") {
+                    closeBottomSheet()
+                },
+                GridItem(R.drawable.ic_lock1, "加密") {
+                    closeBottomSheet()
+                },
+                GridItem(R.drawable.ic_upload, "上传") {
+                    closeBottomSheet()
+                },
+                GridItem(R.drawable.ic_trash, "删除", MaterialTheme.colorScheme.error) {
+                    closeBottomSheet()
+                }
+            ),
+            shapeClip = 0.dp
         )
         Button(
             onClick = closeBottomSheet,

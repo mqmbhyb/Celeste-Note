@@ -17,6 +17,7 @@ room = "2.6.1"
 ksp = "2.1.0-1.0.29"
 coil = "2.7.0"
 hilt-navigation-compose = "1.0.0"
+biometric = "1.2.0-alpha05"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core" }
@@ -44,6 +45,7 @@ room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref  = "coil" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
+biometric = { group = "androidx.biometric", name = "biometric", version.ref = "biometric" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

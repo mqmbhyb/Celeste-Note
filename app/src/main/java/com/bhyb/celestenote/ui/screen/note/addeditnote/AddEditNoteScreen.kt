@@ -9,11 +9,11 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.AlertDialog
@@ -40,9 +40,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.bhyb.celestenote.R
 import com.bhyb.celestenote.ui.component.PassParametersToast
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -58,6 +61,8 @@ fun AddEditNoteScreen(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     var showMoreOptions by remember { mutableStateOf(false) }
     var showConfirmDialog by remember { mutableStateOf(false) }
 
@@ -111,6 +116,12 @@ fun AddEditNoteScreen(
         }
     }
 
+    val onLockClick = {
+        showMoreOptions = false
+        viewModel.noteIsLock.value.not()
+        viewModel.onEvent(AddEditNoteEvent.UpdateNote)
+    }
+
     // 监听返回事件
     BackHandler {
         scope.launch {
@@ -127,6 +138,7 @@ fun AddEditNoteScreen(
                 TextButton(onClick = {
                     showConfirmDialog = false
                     if (viewModel.isBlankNote) {
+                        keyboardController?.hide()
                         viewModel.onEvent(AddEditNoteEvent.DeleteNotes)
                     } else {
                         saveOrUpdate()
@@ -181,26 +193,28 @@ fun AddEditNoteScreen(
                             modifier = Modifier.background(Color.White)
                         ) {
                             DropdownMenuItem(
-                                text = { Text("加密") },
-                                leadingIcon = { Icon(Icons.Default.Lock, "") },
-                                onClick = {
-                                    if (viewModel.noteCategoryId.value.int != 2) {
-                                        showMoreOptions = false
-                                        viewModel.noteCategoryId.value.int = 2
-                                        viewModel.onEvent(AddEditNoteEvent.UpdateNote)
-                                    }
-                                }
+                                text = {
+                                    Text(if (viewModel.noteIsLock.value.boolean) "取消加密" else "加密")
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        if (viewModel.noteIsLock.value.boolean) painterResource(R.drawable.ic_unlock2)
+                                            else painterResource(R.drawable.ic_lock2) ,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(25.dp)
+                                    )
+                                },
+                                onClick = { onLockClick() }
                             )
                             DropdownMenuItem(
                                 text = { Text("上传") },
                                 leadingIcon = { Icon(Icons.Default.Share, "") },
                                 onClick = {
-                                    if (!viewModel.noteIsUpload.value.boolean) {
                                         showMoreOptions = false
                                         viewModel.noteIsUpload.value.boolean = true
                                         viewModel.onEvent(AddEditNoteEvent.UpdateNote)
-                                    }
-                                }
+                                },
+                                enabled = !viewModel.noteIsUpload.value.boolean
                             )
                             DropdownMenuItem(
                                 text = { Text("删除", color = MaterialTheme.colorScheme.error) },

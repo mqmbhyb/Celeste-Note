@@ -27,5 +27,8 @@ data class NoteEntity(
     val isDelete: Boolean,
 
     @ColumnInfo(name = "is_upload")
-    val isUpload: Boolean
+    val isUpload: Boolean,
+
+    @ColumnInfo(name = "is_lock")
+    val isLock: Boolean
 )

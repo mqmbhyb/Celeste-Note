@@ -21,9 +21,16 @@ class NoteViewModel @Inject constructor(
     private val _notes = MutableStateFlow<List<Note>>(emptyList())
     val notes: StateFlow<List<Note>> = _notes.asStateFlow()
 
+    private val _notesByCategory = MutableStateFlow<List<Note>>(emptyList())
+    val notesByCategory: StateFlow<List<Note>> = _notesByCategory.asStateFlow()
+
+    private val _notesByIsLock = MutableStateFlow<List<Note>>(emptyList())
+    val notesByIsLock: StateFlow<List<Note>> = _notesByIsLock.asStateFlow()
+
     init {
         onGetNotes()
         initNotes()
+        onGetNoteByIsLock()
     }
 
     /* 获取全部笔记 */
@@ -38,7 +45,15 @@ class NoteViewModel @Inject constructor(
     fun onGetNoteByCategory(categoryId: Int) {
         viewModelScope.launch {
             noteUseCases.getNoteByCategory.invoke(categoryId).collect { result ->
-                _notes.value = result
+                _notesByCategory.value = result
+            }
+        }
+    }
+
+    private fun onGetNoteByIsLock() {
+        viewModelScope.launch {
+            noteUseCases.getNoteByIsLock.invoke().collect { result ->
+                _notesByIsLock.value = result
             }
         }
     }
@@ -62,7 +77,8 @@ class NoteViewModel @Inject constructor(
             updateTime = Date(),
             categoryId = 0,
             isDelete = false,
-            isUpload = false
+            isUpload = false,
+            isLock = false
         )
     }
 }

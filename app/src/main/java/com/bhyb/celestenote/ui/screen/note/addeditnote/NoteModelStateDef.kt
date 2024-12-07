@@ -18,4 +18,8 @@ data class StateDefForInt(
 
 data class StateDefForBoolean(
     var boolean: Boolean = false
-)
+) {
+    operator fun not() {
+        boolean = !boolean
+    }
+}

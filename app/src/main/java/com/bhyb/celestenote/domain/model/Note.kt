@@ -28,7 +28,10 @@ data class Note(
     val isDelete: Boolean,
 
     @SerialName("is_upload")
-    val isUpload: Boolean
+    val isUpload: Boolean,
+
+    @SerialName("is_lock")
+    val isLock: Boolean
 )
 
 class InvalidNoteException(message: String): Exception(message)

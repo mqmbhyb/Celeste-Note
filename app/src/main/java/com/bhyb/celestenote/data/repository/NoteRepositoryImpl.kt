@@ -38,4 +38,8 @@ class NoteRepositoryImpl(
         return noteDao.queryNotesLike(searchQuery).map { it.map { result -> result.toConvert() } }
     }
 
+    override fun getNoteByIsLock(): Flow<List<Note>> {
+        return noteDao.getNoteByIsLock().map { it.map { result -> result.toConvert() } }
+    }
+
 }
