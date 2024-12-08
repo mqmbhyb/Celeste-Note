@@ -28,7 +28,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -67,7 +66,6 @@ fun NoteScreen(
     onAddNoteClicked: () -> Unit,
     navController: NavController,
     viewModel: NoteViewModel = hiltViewModel(),
-    categoryId: Int? = null,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -90,11 +88,6 @@ fun NoteScreen(
             }
         )
     }
-
-    LaunchedEffect(categoryId) {
-        categoryId?.let { viewModel.onGetNoteByCategory(it) }
-    }
-
 
     val onNoteItemLongPress = {
         sheetContent = {

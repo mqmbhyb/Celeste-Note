@@ -19,12 +19,12 @@ fun Note.toConvert(): NoteEntity {
 
 fun CategoryEntity.toConvert(): Category {
     return Category(
-        id, categoryTitle, icon, isDeletable
+        id, title, isDeletable
     )
 }
 
 fun Category.toConvert(): CategoryEntity {
     return CategoryEntity(
-        id, categoryTitle, icon, isDeletable
+        id, title, isDeletable
     )
 }

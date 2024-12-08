@@ -35,6 +35,8 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -42,9 +44,13 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.bhyb.celestenote.R
+import com.bhyb.celestenote.domain.model.Category
 import com.bhyb.celestenote.ui.screen.note.drawer.DrawerContent
 import com.bhyb.celestenote.ui.screen.note.drawer.DrawerScreen
+import com.bhyb.celestenote.ui.screen.note.drawer.DrawerViewModel
 import kotlinx.coroutines.launch
+
+fun Category.toDrawerScreen(): DrawerScreen = object : DrawerScreen(this.title, R.drawable.ic_document, this.id) {}
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -52,6 +58,11 @@ fun BottomNav() {
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    val viewModel: DrawerViewModel = hiltViewModel()
+    val customCategories by viewModel.customizedCategories.collectAsStateWithLifecycle(emptyList())
+    val customDrawerItems = remember(customCategories) {
+        customCategories.map { it.toDrawerScreen() }
+    }
     var selectedItem by remember { mutableStateOf<DrawerScreen>(DrawerScreen.AllNote) }
     val currentRoute = remember(navController) {
         mutableStateOf(navController.currentBackStackEntry?.destination?.route ?: "")
@@ -69,7 +80,8 @@ fun BottomNav() {
             onItemSelected = {
                 selectedItem = it;
                 scope.launch { drawerState.close() }
-            }
+            },
+            customDrawerItems = customDrawerItems
         )
     }
 

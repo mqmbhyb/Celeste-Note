@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.lifecycle.ktx)
     implementation(libs.activity.compose)
     implementation(libs.navigation.compose)
+    implementation(libs.ui.test.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

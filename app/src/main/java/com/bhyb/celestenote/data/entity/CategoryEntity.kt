@@ -9,9 +9,7 @@ data class CategoryEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
 
-    val categoryTitle: String,
-
-    val icon: Int,
+    val title: String,
 
     @ColumnInfo(name = "is_deletable")
     val isDeletable: Boolean = true // 默认可删除

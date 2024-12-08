@@ -8,11 +8,7 @@ import kotlinx.serialization.Serializable
 data class Category(
     val id: Int = 0,
 
-    @SerialName("category_title")
-    @Contextual
-    val categoryTitle: String,
-
-    val icon: Int,
+    val title: String,
 
     @SerialName("is_deletable")
     @Contextual
