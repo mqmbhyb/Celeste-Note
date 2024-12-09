@@ -74,9 +74,8 @@ class AddEditNoteViewModel @Inject constructor(
             if (!isModified) return false
             val newContentLen = noteContent.value.text.length
             val newTitleLen = noteTitle.value.text.length
-            // 笔记内容不为空且字数减少
-            val contentDec =
-                noteContent.value.text.isNotBlank() && newContentLen < originalContentLength
+            // 笔记内容字数减少
+            val contentDec = newContentLen < originalContentLength
             // 笔记内容为空时，标题字数减少
             val titleDecWhenEmpty =
                 noteContent.value.text.isBlank() && newTitleLen < originalTitleLength

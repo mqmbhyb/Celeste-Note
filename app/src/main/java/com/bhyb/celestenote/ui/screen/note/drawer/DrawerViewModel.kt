@@ -50,6 +50,12 @@ class DrawerViewModel @Inject constructor(
         }
     }
 
+    fun initCategory() {
+        viewModelScope.launch {
+            _category.value = null
+        }
+    }
+
     private fun onGetCustomizedCategories() {
         viewModelScope.launch {
             categoryUseCases.getCustomizedCategories.invoke().collect { result ->
@@ -120,7 +126,6 @@ class DrawerViewModel @Inject constructor(
             } else {
                 _uiState.update { it.copy(errorText = "分类名称不能为空") }
             }
-
             _uiState.update { it.copy(isCheckingDuplicate = false) }
         }
     }

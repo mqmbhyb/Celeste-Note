@@ -85,6 +85,7 @@ fun AddEditCategoryDialog(
                             categoryToEdit = categoryToEdit,
                             onDismissRequest = onDismissRequest
                         )
+                        viewModel.initCategory()
                     },
                     enabled = !uiState.isCheckingDuplicate,
                     modifier = Modifier

@@ -81,7 +81,8 @@ fun BottomNav() {
                 selectedItem = it;
                 scope.launch { drawerState.close() }
             },
-            customDrawerItems = customDrawerItems
+            customDrawerItems = customDrawerItems,
+            drawerState = drawerState
         )
     }
 

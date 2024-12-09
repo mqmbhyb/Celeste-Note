@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -52,6 +53,7 @@ fun DrawerContent(
     selectedItem: DrawerScreen,
     onItemSelected: (DrawerScreen) -> Unit,
     customDrawerItems: List<DrawerScreen>,
+    drawerState: DrawerState,
     viewModel: DrawerViewModel = hiltViewModel()
 ) {
     val isNotEmpty = customDrawerItems.isNotEmpty()
@@ -68,9 +70,13 @@ fun DrawerContent(
         dialogText = newText
     }
 
+    LaunchedEffect(drawerState.isClosed) {
+        showMoreVert = false
+        onUpdateClicked = false
+    }
+
     LaunchedEffect(category) {
         dialogText = if (category != null) {
-            TextFieldValue()
             TextFieldValue(category!!.title)
         } else {
             TextFieldValue()
@@ -79,8 +85,15 @@ fun DrawerContent(
 
     LaunchedEffect(dialogText) {
         if (dialogText.text.isNotBlank()) {
-            val updatedText = dialogText.copy(selection = TextRange(dialogText.text.length))
-            onTextChange(updatedText)
+            if (onUpdateClicked) {
+                val updatedText = dialogText.copy(selection = TextRange(dialogText.text.length))
+                onTextChange(updatedText)
+            } else {
+                if (!showDialog) {
+                    val updatedText = TextFieldValue()
+                    onTextChange(updatedText)
+                }
+            }
         }
     }
 
@@ -88,6 +101,7 @@ fun DrawerContent(
         AddEditCategoryDialog(
             viewModel = viewModel,
             onDismissRequest = {
+                viewModel.initCategory()
                 viewModel.uiState.value.errorText = null
                 showDialog = false
                 selectedCategory = null
@@ -174,6 +188,7 @@ fun DrawerContent(
                     Text(
                         text = "完成",
                         modifier = Modifier.clickable {
+                            viewModel.initCategory()
                             showMoreVert = !showMoreVert
                             onUpdateClicked = !onUpdateClicked
                         },
