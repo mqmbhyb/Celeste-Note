@@ -1,5 +1,6 @@
 package com.bhyb.celestenote.ui.screen.note
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,6 +29,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -76,7 +78,6 @@ fun NoteScreen(
     }
 
     val notes by viewModel.notes.collectAsStateWithLifecycle(emptyList())
-    val notesByCategory by drawerViewModel.notesByCategory.collectAsStateWithLifecycle(emptyList())
     val notesByIsLock by viewModel.notesByIsLock.collectAsStateWithLifecycle(emptyList())
 
     var showModalBottomSheet by remember { mutableStateOf(false) }
@@ -98,6 +99,12 @@ fun NoteScreen(
             }
         }
         showModalBottomSheet = true
+    }
+
+    LaunchedEffect(selectedItem) {
+        if (selectedItem.categoryId != null) {
+            drawerViewModel.onGetNoteByCategory(selectedItem.categoryId)
+        }
     }
 
     Scaffold(
@@ -169,10 +176,19 @@ fun NoteScreen(
                 .fillMaxSize()
                 .background(colorResource(id = R.color.screen_background_color))
         ) {
+            Log.d("selectedItem","selectedItem$selectedItem")
             when (selectedItem) {
                 DrawerScreen.AllNote -> NotesClassificationDisplay(notes, onNoteItemLongPress, navController)
-                DrawerScreen.Uncategorized -> NotesClassificationDisplay(notesByCategory , onNoteItemLongPress, navController)
+                DrawerScreen.Uncategorized -> {
+                    drawerViewModel.onGetNoteByCategory(0)
+                    val uncategorizedNotes by drawerViewModel.notesByCategory.collectAsStateWithLifecycle(emptyList())
+                    NotesClassificationDisplay(uncategorizedNotes, onNoteItemLongPress, navController)
+                }
                 DrawerScreen.LockNote -> NotesClassificationDisplay(notesByIsLock, onNoteItemLongPress, navController)
+                else -> {
+                    val categorizedNotes by drawerViewModel.notesByCategory.collectAsStateWithLifecycle(emptyList())
+                    NotesClassificationDisplay(categorizedNotes, onNoteItemLongPress, navController)
+                }
             }
         }
     }

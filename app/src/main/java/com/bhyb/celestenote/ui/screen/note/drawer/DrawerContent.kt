@@ -76,7 +76,7 @@ fun DrawerContent(
     }
 
     LaunchedEffect(category) {
-        dialogText = if (category != null) {
+        dialogText = if (onUpdateClicked && category != null) {
             TextFieldValue(category!!.title)
         } else {
             TextFieldValue()
@@ -88,11 +88,6 @@ fun DrawerContent(
             if (onUpdateClicked) {
                 val updatedText = dialogText.copy(selection = TextRange(dialogText.text.length))
                 onTextChange(updatedText)
-            } else {
-                if (!showDialog) {
-                    val updatedText = TextFieldValue()
-                    onTextChange(updatedText)
-                }
             }
         }
     }
@@ -101,9 +96,10 @@ fun DrawerContent(
         AddEditCategoryDialog(
             viewModel = viewModel,
             onDismissRequest = {
+                onTextChange(TextFieldValue())
+                showDialog = false
                 viewModel.initCategory()
                 viewModel.uiState.value.errorText = null
-                showDialog = false
                 selectedCategory = null
                 onRenameClicked = false
             },
@@ -115,12 +111,12 @@ fun DrawerContent(
     }
 
     if (viewModel.isShowDeleteDialog.value) {
-        selectedCategory?.id?.let {
+        showContextMenu = false
+        selectedCategory?.categoryId?.let {
             DeleteCategoryDialog(
                 viewModel = viewModel,
                 categoryId = it,
                 onDismissRequest = {
-                    showContextMenu = false
                     selectedCategory = null
                     viewModel.isShowDeleteDialog.value = false
                 }
@@ -260,7 +256,7 @@ fun DrawerContent(
                                     DropdownMenuItem(
                                         text = { Text("重命名") },
                                         onClick = {
-                                            selectedCategory?.id?.let { viewModel.onGetCategory(it) }
+                                            selectedCategory?.categoryId?.let { viewModel.onGetCategory(it) }
                                             showContextMenu = false
                                             onRenameClicked = true
                                             showDialog = true

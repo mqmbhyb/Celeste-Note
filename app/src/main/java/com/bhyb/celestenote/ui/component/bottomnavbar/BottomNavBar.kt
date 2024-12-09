@@ -78,7 +78,7 @@ fun BottomNav() {
         DrawerContent(
             selectedItem = selectedItem,
             onItemSelected = {
-                selectedItem = it;
+                selectedItem = it
                 scope.launch { drawerState.close() }
             },
             customDrawerItems = customDrawerItems,
