@@ -25,7 +25,7 @@ data class Note(
     var categoryId: Int,
 
     @SerialName("is_delete")
-    val isDelete: Boolean,
+    var isDelete: Boolean,
 
     @SerialName("is_upload")
     val isUpload: Boolean,

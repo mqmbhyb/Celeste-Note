@@ -114,6 +114,20 @@ fun DrawerContent(
         )
     }
 
+    if (viewModel.isShowDeleteDialog.value) {
+        selectedCategory?.id?.let {
+            DeleteCategoryDialog(
+                viewModel = viewModel,
+                categoryId = it,
+                onDismissRequest = {
+                    showContextMenu = false
+                    selectedCategory = null
+                    viewModel.isShowDeleteDialog.value = false
+                }
+            )
+        }
+    }
+
     ModalDrawerSheet(
         drawerContainerColor = Color.White,
         modifier = Modifier
@@ -242,7 +256,7 @@ fun DrawerContent(
                                 modifier = Modifier.background(Color.White),
                                 offset = DpOffset(200.dp, 0.dp)
                             ) {
-                                selectedCategory?.let { category ->
+                                selectedCategory?.let {
                                     DropdownMenuItem(
                                         text = { Text("重命名") },
                                         onClick = {
@@ -255,8 +269,7 @@ fun DrawerContent(
                                     DropdownMenuItem(
                                         text = { Text("删除", color = MaterialTheme.colorScheme.error) },
                                         onClick = {
-                                            category.id?.let { viewModel.onDeleteCategory(it) }
-                                            showContextMenu = false
+                                            viewModel.isShowDeleteDialog.value = true
                                         }
                                     )
                                 }

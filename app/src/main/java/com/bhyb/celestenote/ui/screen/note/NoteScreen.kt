@@ -52,6 +52,7 @@ import com.bhyb.celestenote.ui.component.PassParametersToast
 import com.bhyb.celestenote.ui.component.ShowBottomSheet
 import com.bhyb.celestenote.ui.component.bottomnavbar.ROUTE_ADD_EDIT_NOTE_SCREEN
 import com.bhyb.celestenote.ui.screen.note.drawer.DrawerScreen
+import com.bhyb.celestenote.ui.screen.note.drawer.DrawerViewModel
 import com.bhyb.celestenote.ui.screen.note.noteoperation.NoteOperation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -66,6 +67,7 @@ fun NoteScreen(
     onAddNoteClicked: () -> Unit,
     navController: NavController,
     viewModel: NoteViewModel = hiltViewModel(),
+    drawerViewModel: DrawerViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -74,7 +76,7 @@ fun NoteScreen(
     }
 
     val notes by viewModel.notes.collectAsStateWithLifecycle(emptyList())
-    val notesByCategory by viewModel.notesByCategory.collectAsStateWithLifecycle(emptyList())
+    val notesByCategory by drawerViewModel.notesByCategory.collectAsStateWithLifecycle(emptyList())
     val notesByIsLock by viewModel.notesByIsLock.collectAsStateWithLifecycle(emptyList())
 
     var showModalBottomSheet by remember { mutableStateOf(false) }

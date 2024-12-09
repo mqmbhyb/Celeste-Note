@@ -4,7 +4,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bhyb.celestenote.domain.model.Category
+import com.bhyb.celestenote.domain.model.Note
 import com.bhyb.celestenote.domain.usecase.CategoryUseCases
+import com.bhyb.celestenote.domain.usecase.NoteUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DrawerViewModel @Inject constructor(
-    private val categoryUseCases: CategoryUseCases
+    private val categoryUseCases: CategoryUseCases,
+    private val noteUseCases: NoteUseCases
 ) : ViewModel() {
 
     private val _customizedCategories = MutableStateFlow<List<Category>>(emptyList())
@@ -28,6 +31,11 @@ class DrawerViewModel @Inject constructor(
 
     private val _category = MutableStateFlow<Category?>(null)
     val category: StateFlow<Category?> = _category.asStateFlow()
+
+    private val _notesByCategory = MutableStateFlow<List<Note>>(emptyList())
+    val notesByCategory: StateFlow<List<Note>> = _notesByCategory.asStateFlow()
+
+    var isShowDeleteDialog =  mutableStateOf(false)
 
     data class UiState(
         var errorText: String? = null,
@@ -78,11 +86,41 @@ class DrawerViewModel @Inject constructor(
         }
     }
 
-    fun onDeleteCategory(categoryId: Int) {
+    fun onGetNoteByCategory(categoryId: Int) {
         viewModelScope.launch {
-            categoryUseCases.deleteCategory.invoke(categoryId)
+            noteUseCases.getNoteByCategory.invoke(categoryId).collect { result ->
+                _notesByCategory.value = result
+            }
         }
-        onGetCustomizedCategories()
+    }
+
+    fun onDelete(event: DeleteCategoryEvent, categoryId :Int) {
+        when (event) {
+            DeleteCategoryEvent.DeleteCategory -> {
+                viewModelScope.launch {
+                    onGetNoteByCategory(categoryId)
+                    categoryUseCases.deleteCategory.invoke(categoryId)
+                    isShowDeleteDialog.value = false
+                    for (note in notesByCategory.value) {
+                        note.categoryId = 0
+                        noteUseCases.updateNote.invoke(note)
+                    }
+                }
+                onGetCustomizedCategories()
+            }
+            DeleteCategoryEvent.DeleteCategoryAndNotes -> {
+                viewModelScope.launch {
+                    onGetNoteByCategory(categoryId)
+                    categoryUseCases.deleteCategory.invoke(categoryId)
+                    isShowDeleteDialog.value = false
+                    for (note in notesByCategory.value) {
+                        note.isDelete = true
+                        noteUseCases.updateNote.invoke(note)
+                    }
+                }
+                onGetCustomizedCategories()
+            }
+        }
     }
 
     private fun onUpdateCategory(category: Category) {
