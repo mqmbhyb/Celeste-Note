@@ -9,11 +9,11 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.bhyb.celestenote.ui.component.SearchScreen
 import com.bhyb.celestenote.ui.screen.explore.ExploreScreen
 import com.bhyb.celestenote.ui.screen.my.MyScreen
 import com.bhyb.celestenote.ui.screen.my.SettingScreen
 import com.bhyb.celestenote.ui.screen.note.NoteScreen
-import com.bhyb.celestenote.ui.screen.note.SearchScreen
 import com.bhyb.celestenote.ui.screen.note.addeditnote.AddEditNoteScreen
 import com.bhyb.celestenote.ui.screen.note.drawer.DrawerScreen
 import kotlinx.coroutines.CoroutineScope

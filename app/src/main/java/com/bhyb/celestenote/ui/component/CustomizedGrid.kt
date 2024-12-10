@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -29,7 +30,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-data class GridItem(val icon:Int, val title: String, val color: Color? = null, val onItemClick: () -> Unit)
+data class GridItem(val icon:Int, val title: String, val color: Color? = null, val enabled: Boolean? = null, val onItemClick: () -> Unit)
 
 @Composable
 fun GridSection(
@@ -73,11 +74,19 @@ fun GridItemView(
 ) {
     val imageResource = painterResource(id = item.icon)
     val painter = remember { imageResource }
+
+    val contentColor = if (item.enabled == false) {
+        LocalContentColor.current.copy(alpha = 0.38f)
+    } else {
+        item.color ?: LocalContentColor.current
+    }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .padding(8.dp)
-            .clickable {
+            .clickable(
+                enabled = item.enabled?: true
+            ) {
                 item.onItemClick()
             }
     ) {
@@ -88,7 +97,7 @@ fun GridItemView(
                 .size(imageSize)
                 .clip(shape = RoundedCornerShape(shapeClip?: 10.dp)),
             contentScale = ContentScale.Crop,
-            colorFilter = item.color?.let { ColorFilter.tint(it) }
+            colorFilter = ColorFilter.tint(contentColor)
         )
         Text(
             text = item.title,
@@ -97,7 +106,7 @@ fun GridItemView(
             modifier = Modifier
                 .width(60.dp)
                 .padding(top = 4.dp),
-            color = item.color ?: Color. Unspecified
+            color = contentColor
         )
     }
 }

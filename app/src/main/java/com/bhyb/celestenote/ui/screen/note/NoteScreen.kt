@@ -1,6 +1,5 @@
 package com.bhyb.celestenote.ui.screen.note
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -92,10 +91,13 @@ fun NoteScreen(
         )
     }
 
-    val onNoteItemLongPress = {
+    val onNoteItemLongPress: (Note) -> Unit = { note ->
         sheetContent = {
-            NoteOperation {
-                showModalBottomSheet = false
+            note.id?.let {
+                NoteOperation(
+                    it,
+                    closeBottomSheet = { showModalBottomSheet = false }
+                )
             }
         }
         showModalBottomSheet = true
@@ -176,7 +178,6 @@ fun NoteScreen(
                 .fillMaxSize()
                 .background(colorResource(id = R.color.screen_background_color))
         ) {
-            Log.d("selectedItem","selectedItem$selectedItem")
             when (selectedItem) {
                 DrawerScreen.AllNote -> NotesClassificationDisplay(notes, onNoteItemLongPress, navController)
                 DrawerScreen.Uncategorized -> {
@@ -199,7 +200,7 @@ fun NoteScreen(
 @Composable
 fun NotesClassificationDisplay(
     notes: List<Note>,
-    onNoteItemLongPress: () -> Unit,
+    onNoteItemLongPress: (Note) -> Unit,
     navController: NavController,
     modifier: Modifier = Modifier
 ) {
@@ -232,7 +233,7 @@ fun NotesClassificationDisplay(
                                 )
                             },
                             onLongClick = {
-                                onNoteItemLongPress()
+                                onNoteItemLongPress(note)
                                 hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                             }
                         )

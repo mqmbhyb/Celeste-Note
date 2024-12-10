@@ -8,10 +8,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.produceState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -26,7 +29,16 @@ fun DeleteCategoryDialog(
     categoryId: Int,
     onDismissRequest: () -> Unit
 ) {
-    val isNotEmptyNotes = viewModel.notesByCategory.value.isNotEmpty()
+    LaunchedEffect(key1 = true) {
+        viewModel.onGetNoteByCategory(categoryId)
+    }
+
+    val hasNotes = produceState(initialValue = false, producer = {
+        viewModel.notesByCategory.collect { notes ->
+            value = notes.isNotEmpty()
+        }
+    })
+
     Dialog(onDismissRequest = onDismissRequest) {
         Surface(
             shape = MaterialTheme.shapes.medium,
@@ -46,7 +58,7 @@ fun DeleteCategoryDialog(
                     textAlign = TextAlign.Center,
                     fontSize = 20.sp
                 )
-                if (isNotEmptyNotes) {
+                if (hasNotes.value) {
                     Button(
                         onClick = {
                             viewModel.onDelete(DeleteCategoryEvent.DeleteCategoryAndNotes, categoryId)
@@ -79,7 +91,7 @@ fun DeleteCategoryDialog(
                             .padding(horizontal = 20.dp)
                             .fillMaxWidth(),
                         border = BorderStroke(2.dp, Color.Red),
-                        colors = ButtonColors(Color.White, Color.Red, Color.Gray, Color.DarkGray)
+                        colors = ButtonDefaults.buttonColors(Color.White, Color.Red)
                     ) {
                         Text("删除")
                     }
@@ -90,7 +102,7 @@ fun DeleteCategoryDialog(
                     modifier = Modifier
                         .padding(horizontal = 20.dp)
                         .fillMaxWidth(),
-                    colors = ButtonColors(Color.White, Color.DarkGray, Color.Gray, Color.DarkGray)
+                    colors = ButtonDefaults.buttonColors(Color.White, Color.DarkGray)
                 ) {
                     Text("取消")
                 }

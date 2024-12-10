@@ -1,4 +1,4 @@
-package com.bhyb.celestenote.ui.screen.note
+package com.bhyb.celestenote.ui.component
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text

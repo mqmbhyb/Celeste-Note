@@ -28,7 +28,7 @@ data class Note(
     var isDelete: Boolean,
 
     @SerialName("is_upload")
-    val isUpload: Boolean,
+    var isUpload: Boolean,
 
     @SerialName("is_lock")
     val isLock: Boolean

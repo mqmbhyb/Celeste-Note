@@ -98,7 +98,6 @@ class DrawerViewModel @Inject constructor(
         when (event) {
             DeleteCategoryEvent.DeleteCategory -> {
                 viewModelScope.launch {
-                    onGetNoteByCategory(categoryId)
                     categoryUseCases.deleteCategory.invoke(categoryId)
                     isShowDeleteDialog.value = false
                     for (note in notesByCategory.value) {
@@ -110,7 +109,6 @@ class DrawerViewModel @Inject constructor(
             }
             DeleteCategoryEvent.DeleteCategoryAndNotes -> {
                 viewModelScope.launch {
-                    onGetNoteByCategory(categoryId)
                     categoryUseCases.deleteCategory.invoke(categoryId)
                     isShowDeleteDialog.value = false
                     for (note in notesByCategory.value) {
