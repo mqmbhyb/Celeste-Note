@@ -78,7 +78,7 @@ fun GridItemView(
     val contentColor = if (item.enabled == false) {
         LocalContentColor.current.copy(alpha = 0.38f)
     } else {
-        item.color ?: LocalContentColor.current
+        item.color
     }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -97,7 +97,7 @@ fun GridItemView(
                 .size(imageSize)
                 .clip(shape = RoundedCornerShape(shapeClip?: 10.dp)),
             contentScale = ContentScale.Crop,
-            colorFilter = ColorFilter.tint(contentColor)
+            colorFilter = contentColor?.let { ColorFilter.tint(it) }
         )
         Text(
             text = item.title,
@@ -106,7 +106,7 @@ fun GridItemView(
             modifier = Modifier
                 .width(60.dp)
                 .padding(top = 4.dp),
-            color = contentColor
+            color = contentColor?: LocalContentColor.current
         )
     }
 }

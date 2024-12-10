@@ -22,7 +22,7 @@ interface NoteDao {
     @Query("SELECT * FROM note WHERE id = :id")
     suspend fun getNoteById(id: Int): NoteEntity?
 
-    @Query("SELECT * FROM note WHERE category_id = :categoryId")
+    @Query("SELECT * FROM note WHERE category_id = :categoryId and is_delete = 0")
     fun getNoteByCategory(categoryId: Int): Flow<List<NoteEntity>>
 
     @Query("SELECT * FROM note WHERE is_lock = 1")
