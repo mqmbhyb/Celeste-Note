@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -92,7 +92,7 @@ fun AddEditCategoryDialog(
                         .padding(horizontal = 20.dp)
                         .fillMaxWidth(),
                     border = BorderStroke(2.dp, color),
-                    colors = ButtonColors(Color.White, color, Color.Gray, Color.DarkGray)
+                    colors = ButtonDefaults.buttonColors(Color.White, color)
                 ) {
                     Text("保存")
                 }
@@ -104,7 +104,7 @@ fun AddEditCategoryDialog(
                     modifier = Modifier
                         .padding(horizontal = 20.dp)
                         .fillMaxWidth(),
-                    colors = ButtonColors(Color.White, Color.DarkGray, Color.Gray, Color.DarkGray)
+                    colors = ButtonDefaults.buttonColors(Color.White, Color.DarkGray)
                 ) {
                     Text("取消")
                 }

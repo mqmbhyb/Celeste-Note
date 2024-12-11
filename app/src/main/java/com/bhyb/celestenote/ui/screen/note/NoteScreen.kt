@@ -81,23 +81,21 @@ fun NoteScreen(
 
     var showModalBottomSheet by remember { mutableStateOf(false) }
     var sheetContent: @Composable (() -> Unit)? by remember { mutableStateOf(null) }
+    val onDismissRequest = {
+        showModalBottomSheet = false
+        sheetContent = null
+    }
     if (showModalBottomSheet && sheetContent != null) {
         ShowBottomSheet(
             sheetContent = sheetContent!!,
-            onDismissRequest = {
-                showModalBottomSheet = false
-                sheetContent = null
-            }
+            onDismissRequest = onDismissRequest
         )
     }
 
     val onNoteItemLongPress: (Note) -> Unit = { note ->
         sheetContent = {
             note.id?.let {
-                NoteOperation(
-                    it,
-                    closeBottomSheet = { showModalBottomSheet = false }
-                )
+                NoteOperation(it, onDismissRequest)
             }
         }
         showModalBottomSheet = true

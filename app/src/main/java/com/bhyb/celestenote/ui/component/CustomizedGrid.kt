@@ -17,7 +17,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -73,7 +72,6 @@ fun GridItemView(
     shapeClip: Dp? = null
 ) {
     val imageResource = painterResource(id = item.icon)
-    val painter = remember { imageResource }
 
     val contentColor = if (item.enabled == false) {
         LocalContentColor.current.copy(alpha = 0.38f)
@@ -91,11 +89,11 @@ fun GridItemView(
             }
     ) {
         Image(
-            painter = painter,
+            painter = imageResource,
             contentDescription = item.title,
             modifier = Modifier
                 .size(imageSize)
-                .clip(shape = RoundedCornerShape(shapeClip?: 10.dp)),
+                .clip(shape = RoundedCornerShape(shapeClip ?: 10.dp)),
             contentScale = ContentScale.Crop,
             colorFilter = contentColor?.let { ColorFilter.tint(it) }
         )

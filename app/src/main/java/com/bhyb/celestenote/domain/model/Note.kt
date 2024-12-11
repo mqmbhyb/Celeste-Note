@@ -31,7 +31,7 @@ data class Note(
     var isUpload: Boolean,
 
     @SerialName("is_lock")
-    val isLock: Boolean
+    var isLock: Boolean
 )
 
 class InvalidNoteException(message: String): Exception(message)

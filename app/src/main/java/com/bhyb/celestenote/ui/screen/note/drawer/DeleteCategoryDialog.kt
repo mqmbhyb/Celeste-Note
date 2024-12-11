@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -67,7 +66,7 @@ fun DeleteCategoryDialog(
                             .padding(horizontal = 20.dp)
                             .fillMaxWidth(),
                         border = BorderStroke(2.dp, Color.Red),
-                        colors = ButtonColors(Color.White, Color.Red, Color.Gray, Color.DarkGray)
+                        colors = ButtonDefaults.buttonColors(Color.White, Color.Red)
                     ) {
                         Text("删除分类和笔记")
                     }
@@ -78,7 +77,7 @@ fun DeleteCategoryDialog(
                         modifier = Modifier
                             .padding(horizontal = 20.dp)
                             .fillMaxWidth(),
-                        colors = ButtonColors(Color.White, Color.DarkGray, Color.Gray, Color.DarkGray)
+                        colors = ButtonDefaults.buttonColors(Color.White, Color.DarkGray)
                     ) {
                         Text("仅删除分类")
                     }

@@ -85,9 +85,13 @@ fun DrawerContent(
 
     LaunchedEffect(dialogText) {
         if (dialogText.text.isNotBlank()) {
-            if (onUpdateClicked) {
-                val updatedText = dialogText.copy(selection = TextRange(dialogText.text.length))
-                onTextChange(updatedText)
+            if (showDialog) {
+                if (onUpdateClicked) {
+                    val updatedText = dialogText.copy(selection = TextRange(dialogText.text.length))
+                    onTextChange(updatedText)
+                }
+            } else {
+                onTextChange(TextFieldValue())
             }
         }
     }
