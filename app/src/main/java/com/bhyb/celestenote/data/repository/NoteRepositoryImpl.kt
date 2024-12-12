@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.map
 class NoteRepositoryImpl(
     private val noteDao: NoteDao
 ): NoteRepository {
-    override suspend fun insertNote(note: Note) {
-        noteDao.insertNote(note.toConvert())
+    override suspend fun insertNote(note: Note): Long {
+        return noteDao.insertNote(note.toConvert())
     }
 
     override suspend fun updateNote(note: Note) {

@@ -11,6 +11,8 @@ import com.bhyb.celestenote.domain.model.Note
 import com.bhyb.celestenote.domain.usecase.NoteUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import java.util.Date
@@ -49,7 +51,7 @@ class AddEditNoteViewModel @Inject constructor(
                 _noteContent.value.text != originalContent.value.text
 
     val isCreateNote: Boolean
-        get() = currentNoteId == null
+        get() = currentNoteId.value == null
 
     val isBlankNote : Boolean
         get() = noteTitle.value.text.isBlank() && noteContent.value.text.isBlank()
@@ -83,7 +85,8 @@ class AddEditNoteViewModel @Inject constructor(
             return contentDec || titleDecWhenEmpty || isBlankNote
         }
 
-    private var currentNoteId: Int? = null
+    private val _currentNoteId = MutableStateFlow<Int?>(null)
+    val currentNoteId : StateFlow<Int?> = _currentNoteId
 
     private val _noteCreateTime = mutableStateOf(StateDefForDate())
     private val noteCreateTime : MutableState<StateDefForDate> = _noteCreateTime
@@ -105,7 +108,7 @@ class AddEditNoteViewModel @Inject constructor(
             if (noteId != -1) {
                 viewModelScope.launch {
                     noteUseCases.getNote(noteId)?.also { note ->
-                        currentNoteId = note.id
+                        _currentNoteId.value = note.id
                         _noteTitle.value = note.title?.let {
                             noteTitle.value.copy(
                                 text = it,
@@ -176,7 +179,7 @@ class AddEditNoteViewModel @Inject constructor(
             is AddEditNoteEvent.SaveNote -> {
                 viewModelScope.launch {
                     try {
-                        noteUseCases.addNote(
+                        val newNoteId = noteUseCases.addNote(
                             Note(
                                 title = noteTitle.value.text,
                                 content = noteContent.value.text,
@@ -186,9 +189,10 @@ class AddEditNoteViewModel @Inject constructor(
                                 isDelete = false,
                                 isUpload = false,
                                 isLock = false,
-                                id = currentNoteId
+                                id = currentNoteId.value
                             )
                         )
+                        _currentNoteId.value = newNoteId.toInt()
                         _originalTitle.value = _noteTitle.value.copy()
                         _originalContent.value = _noteContent.value.copy()
                         _eventFlow.emit(ClickEvent.SaveNote)
@@ -205,9 +209,7 @@ class AddEditNoteViewModel @Inject constructor(
             is AddEditNoteEvent.DeleteNotes -> {
                 viewModelScope.launch {
                     try {
-                        currentNoteId?.let { id ->
-                            noteUseCases.deleteNotes(listOf(id))
-                        }
+                        noteUseCases.deleteNotes(listOf(currentNoteId.value!!))
                         _originalTitle.value = NoteTextFieldState(hint = "标题")
                         _originalContent.value = NoteTextFieldState(hint = "请输入正文")
                         _eventFlow.emit(ClickEvent.ShowToast(message = "笔记已删除"))
@@ -233,7 +235,7 @@ class AddEditNoteViewModel @Inject constructor(
                             isDelete = noteIsDelete.value.boolean,
                             isUpload = noteIsUpload.value.boolean,
                             isLock = noteIsLock.value.boolean,
-                            id = currentNoteId
+                            id = currentNoteId.value
                         )
                         noteUseCases.updateNote(updatedNote)
 

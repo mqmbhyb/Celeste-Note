@@ -1,6 +1,7 @@
 package com.bhyb.celestenote.ui.screen.note.addeditnote
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -111,6 +112,7 @@ fun AddEditNoteScreen(
     val saveOrUpdate = {
         if (viewModel.isCreateNote) {
             viewModel.onEvent(AddEditNoteEvent.SaveNote)
+            Log.d("ddd","${viewModel.currentNoteId.value}")
         } else {
             viewModel.onEvent(AddEditNoteEvent.UpdateNote)
         }
@@ -175,7 +177,7 @@ fun AddEditNoteScreen(
                 actions = {
                     if (isGetFocus) {
                         IconButton(
-                            onClick = saveOrUpdate,
+                            onClick = { saveOrUpdate() },
                             enabled = !viewModel.isBlankNote
                         ) {
                             Icon(Icons.Filled.Check, "保存笔记")

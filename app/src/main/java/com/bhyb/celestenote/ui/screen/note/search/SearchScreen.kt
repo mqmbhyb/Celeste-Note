@@ -24,7 +24,9 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import com.bhyb.celestenote.ui.component.bottomnavbar.ROUTE_ADD_EDIT_NOTE_SCREEN
+import com.bhyb.celestenote.ui.component.bottomnavbar.ROUTE_SEARCH_SCREEN
 import com.bhyb.celestenote.ui.screen.note.NoteItem
 
 @Composable
@@ -83,8 +85,16 @@ fun SearchScreen(
                         .padding(top = 16.dp)
                         .fillMaxWidth()
                         .clickable {
+                            keyboardController?.hide()
+
+                            val navOptions = NavOptions.Builder()
+                                .setPopUpTo(ROUTE_SEARCH_SCREEN, true)
+                                .setLaunchSingleTop(true)
+                                .build()
+
                             navController.navigate(
-                                ROUTE_ADD_EDIT_NOTE_SCREEN + "?noteId=${note.id}"
+                                ROUTE_ADD_EDIT_NOTE_SCREEN + "?noteId=${note.id}",
+                                navOptions
                             )
                         }
                 )
