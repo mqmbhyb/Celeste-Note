@@ -20,6 +20,7 @@ import com.bhyb.celestenote.domain.usecase.noteusecase.GetNote
 import com.bhyb.celestenote.domain.usecase.noteusecase.GetNoteByCategory
 import com.bhyb.celestenote.domain.usecase.noteusecase.GetNoteByIsLock
 import com.bhyb.celestenote.domain.usecase.noteusecase.GetNotes
+import com.bhyb.celestenote.domain.usecase.noteusecase.QueryNotesLike
 import com.bhyb.celestenote.domain.usecase.noteusecase.UpdateNote
 import dagger.Module
 import dagger.Provides
@@ -63,7 +64,8 @@ object AppModule {
             getNoteByCategory = GetNoteByCategory(repository),
             getNote = GetNote(repository),
             updateNote = UpdateNote(repository),
-            getNoteByIsLock = GetNoteByIsLock(repository)
+            getNoteByIsLock = GetNoteByIsLock(repository),
+            queryNotesLike = QueryNotesLike(repository)
         )
     }
 

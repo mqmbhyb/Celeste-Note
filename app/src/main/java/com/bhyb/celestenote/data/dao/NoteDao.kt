@@ -33,6 +33,6 @@ interface NoteDao {
     suspend fun deleteNotesByIds(noteIds: List<Int>)
 
     //搜索
-    @Query("SELECT * FROM note WHERE title LIKE :searchQuery OR content LIKE :searchQuery")
+    @Query("SELECT * FROM note WHERE LOWER(title) LIKE '%' || LOWER(:searchQuery) || '%' OR LOWER(content) LIKE '%' || LOWER(:searchQuery) || '%'")
     fun queryNotesLike(searchQuery: String): Flow<List<NoteEntity>>
 }

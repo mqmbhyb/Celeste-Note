@@ -6,6 +6,7 @@ import com.bhyb.celestenote.domain.usecase.noteusecase.GetNote
 import com.bhyb.celestenote.domain.usecase.noteusecase.GetNoteByCategory
 import com.bhyb.celestenote.domain.usecase.noteusecase.GetNoteByIsLock
 import com.bhyb.celestenote.domain.usecase.noteusecase.GetNotes
+import com.bhyb.celestenote.domain.usecase.noteusecase.QueryNotesLike
 import com.bhyb.celestenote.domain.usecase.noteusecase.UpdateNote
 
 data class NoteUseCases(
@@ -15,5 +16,6 @@ data class NoteUseCases(
     val getNoteByCategory: GetNoteByCategory,
     val getNote: GetNote,
     val updateNote: UpdateNote,
-    val getNoteByIsLock: GetNoteByIsLock
+    val getNoteByIsLock: GetNoteByIsLock,
+    val queryNotesLike: QueryNotesLike
 )

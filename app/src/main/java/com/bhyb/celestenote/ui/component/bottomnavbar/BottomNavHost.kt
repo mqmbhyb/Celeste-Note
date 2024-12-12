@@ -9,13 +9,13 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.bhyb.celestenote.ui.component.SearchScreen
 import com.bhyb.celestenote.ui.screen.explore.ExploreScreen
 import com.bhyb.celestenote.ui.screen.my.MyScreen
 import com.bhyb.celestenote.ui.screen.my.SettingScreen
 import com.bhyb.celestenote.ui.screen.note.NoteScreen
 import com.bhyb.celestenote.ui.screen.note.addeditnote.AddEditNoteScreen
 import com.bhyb.celestenote.ui.screen.note.drawer.DrawerScreen
+import com.bhyb.celestenote.ui.screen.note.search.SearchScreen
 import kotlinx.coroutines.CoroutineScope
 
 val slideIn = slideInHorizontally(initialOffsetX = { it })
@@ -86,7 +86,7 @@ fun BottomNavHost(
             popEnterTransition = { slideIn },
             popExitTransition = { slideOut }
         ) {
-            SearchScreen()
+            SearchScreen(navController)
         }
 
         composable(
