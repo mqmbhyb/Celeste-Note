@@ -1,7 +1,6 @@
 package com.bhyb.celestenote.ui.screen.note.addeditnote
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -44,9 +43,11 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.bhyb.celestenote.R
+import com.bhyb.celestenote.ui.component.BiometricAuthenticationHelper
 import com.bhyb.celestenote.ui.component.PassParametersToast
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -80,14 +81,16 @@ fun AddEditNoteScreen(
 
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
-            when(event) {
+            when (event) {
                 is AddEditNoteViewModel.ClickEvent.ShowToast -> {
                     PassParametersToast.show(context, message = event.message)
                 }
+
                 is AddEditNoteViewModel.ClickEvent.SaveNote -> {
                     focusManager.clearFocus()
                 }
-                is AddEditNoteViewModel.ClickEvent.UpdateNote-> {
+
+                is AddEditNoteViewModel.ClickEvent.UpdateNote -> {
                     focusManager.clearFocus()
                 }
             }
@@ -98,30 +101,48 @@ fun AddEditNoteScreen(
         if (viewModel.isModified && viewModel.isCreateNote && isGetFocus) {
             viewModel.onEvent(AddEditNoteEvent.SaveNote)
             navController.navigateUp()
-        } else if(viewModel.contentIncOrUnchangedOrTitleInc) {
+        } else if (viewModel.contentIncOrUnchangedOrTitleInc) {
             viewModel.onEvent(AddEditNoteEvent.UpdateNote)
             navController.navigateUp()
-        } else if(viewModel.contentDecOrTitleDec) {
+        } else if (viewModel.contentDecOrTitleDec) {
             showConfirmDialog = true
         } else {
             navController.navigateUp()
         }
     }
 
-    //判断保存还是修改
+    // 判断保存还是修改
     val saveOrUpdate = {
         if (viewModel.isCreateNote) {
             viewModel.onEvent(AddEditNoteEvent.SaveNote)
-            Log.d("ddd","${viewModel.currentNoteId.value}")
         } else {
             viewModel.onEvent(AddEditNoteEvent.UpdateNote)
         }
     }
 
+    val biometricHelper = remember {
+        BiometricAuthenticationHelper(
+            activity = context as FragmentActivity,
+            callback = object : BiometricAuthenticationHelper.Callback {
+                override fun onSuccess(message: String) {
+                    viewModel.noteIsLock.value.not()
+                    viewModel.onEvent(AddEditNoteEvent.UpdateNote)
+                    PassParametersToast.show(context, message)
+                }
+
+                override fun onError(message: String) {
+                    PassParametersToast.show(context, message)
+                }
+
+                override fun onFailed(message: String) {
+                    PassParametersToast.show(context, message)
+                }
+            })
+    }
+
     val onLockClick = {
         showMoreOptions = false
-        viewModel.noteIsLock.value.not()
-        viewModel.onEvent(AddEditNoteEvent.UpdateNote)
+        biometricHelper.authenticate()
     }
 
     // 监听返回事件
@@ -177,7 +198,7 @@ fun AddEditNoteScreen(
                 actions = {
                     if (isGetFocus) {
                         IconButton(
-                            onClick = { saveOrUpdate() },
+                            onClick = saveOrUpdate,
                             enabled = !viewModel.isBlankNote
                         ) {
                             Icon(Icons.Filled.Check, "保存笔记")
@@ -201,7 +222,7 @@ fun AddEditNoteScreen(
                                 leadingIcon = {
                                     Icon(
                                         if (viewModel.noteIsLock.value.boolean) painterResource(R.drawable.ic_unlock2)
-                                            else painterResource(R.drawable.ic_lock2) ,
+                                        else painterResource(R.drawable.ic_lock2),
                                         contentDescription = null,
                                         modifier = Modifier.size(25.dp)
                                     )
@@ -212,15 +233,21 @@ fun AddEditNoteScreen(
                                 text = { Text("上传") },
                                 leadingIcon = { Icon(Icons.Default.Share, "") },
                                 onClick = {
-                                        showMoreOptions = false
-                                        viewModel.noteIsUpload.value.boolean = true
-                                        viewModel.onEvent(AddEditNoteEvent.UpdateNote)
+                                    showMoreOptions = false
+                                    viewModel.noteIsUpload.value.boolean = true
+                                    viewModel.onEvent(AddEditNoteEvent.UpdateNote)
                                 },
                                 enabled = !viewModel.noteIsUpload.value.boolean
                             )
                             DropdownMenuItem(
                                 text = { Text("删除", color = MaterialTheme.colorScheme.error) },
-                                leadingIcon = { Icon(Icons.Default.Delete, "", tint = MaterialTheme.colorScheme.error) },
+                                leadingIcon = {
+                                    Icon(
+                                        Icons.Default.Delete,
+                                        "",
+                                        tint = MaterialTheme.colorScheme.error
+                                    )
+                                },
                                 onClick = {
                                     if (!viewModel.noteIsDelete.value.boolean) {
                                         showMoreOptions = false
@@ -235,7 +262,7 @@ fun AddEditNoteScreen(
                 }
             )
         }
-    ) {innerPadding ->
+    ) { innerPadding ->
         Column(
             modifier = modifier
                 .fillMaxSize()

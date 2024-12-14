@@ -28,6 +28,7 @@ import com.bhyb.celestenote.ui.component.ShowBottomSheet
 fun NoteOperation(
     noteId: Int,
     closeBottomSheet: () -> Unit,
+    biometricHelper: (action: () -> Unit) -> Unit,
     viewModel: NoteOperationViewModel = hiltViewModel()
 ) {
     val isUpload by viewModel.isUpload.collectAsState(initial = false)
@@ -51,7 +52,6 @@ fun NoteOperation(
         viewModel.getCategories()
     }
 
-    //todo加密状态更改要验证
     val (icon, text) = if (isLock)
         R.drawable.ic_unlock1 to "取消加密"
     else
@@ -73,7 +73,7 @@ fun NoteOperation(
                     showModalBottomSheet = true
                 },
                 GridItem(icon, text) {
-                    viewModel.onLockNote(noteId)
+                    biometricHelper { viewModel.onLockNote(noteId) }
                     closeBottomSheet()
                 },
                 GridItem(R.drawable.ic_upload, "上传", enabled = !isUpload) {
@@ -90,7 +90,10 @@ fun NoteOperation(
         )
         Button(
             onClick = closeBottomSheet,
-            colors = ButtonDefaults.buttonColors(colorResource(R.color.bottom_navbar_color), Color.White),
+            colors = ButtonDefaults.buttonColors(
+                colorResource(R.color.bottom_navbar_color),
+                Color.White
+            ),
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 16.dp)

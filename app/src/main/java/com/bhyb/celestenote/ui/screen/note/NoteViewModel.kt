@@ -24,10 +24,22 @@ class NoteViewModel @Inject constructor(
     private val _notesByIsLock = MutableStateFlow<List<Note>>(emptyList())
     val notesByIsLock: StateFlow<List<Note>> = _notesByIsLock.asStateFlow()
 
+    private val _isLockNote = MutableStateFlow(false)
+    val isLockNote : StateFlow<Boolean> = _isLockNote
+
     init {
         onGetNotes()
         initNotes()
         onGetNoteByIsLock()
+    }
+
+    fun onGetNote(noteId: Int) {
+        viewModelScope.launch {
+            val note = noteUseCases.getNote.invoke(noteId)
+            if (note != null) {
+                _isLockNote.value = note.isLock
+            }
+        }
     }
 
     /* 获取全部笔记 */
