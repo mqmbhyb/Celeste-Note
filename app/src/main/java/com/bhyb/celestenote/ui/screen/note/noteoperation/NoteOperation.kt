@@ -82,8 +82,15 @@ fun NoteOperation(
                     closeBottomSheet()
                 },
                 GridItem(R.drawable.ic_trash, "删除", MaterialTheme.colorScheme.error) {
-                    viewModel.onDeleteNoteToRecycle(noteId)
-                    closeBottomSheet()
+                    if (isLock) {
+                        biometricHelper {
+                            viewModel.onDeleteNoteToRecycle(noteId)
+                            closeBottomSheet()
+                        }
+                    } else {
+                        viewModel.onDeleteNoteToRecycle(noteId)
+                        closeBottomSheet()
+                    }
                 }
             ),
             shapeClip = 0.dp

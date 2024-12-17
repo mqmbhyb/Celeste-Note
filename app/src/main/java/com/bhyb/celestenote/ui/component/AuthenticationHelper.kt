@@ -41,7 +41,7 @@ class BiometricAuthenticationHelper(private val activity: FragmentActivity, priv
         // Set up the prompt information
         promptInfo = BiometricPrompt.PromptInfo.Builder()
             .setTitle("请验证指纹")
-            .setSubtitle("验证成功以继续查看")
+            .setSubtitle("验证成功以继续")
             .setNegativeButtonText("使用密码")
             .setAllowedAuthenticators(BIOMETRIC_STRONG)
             .build()

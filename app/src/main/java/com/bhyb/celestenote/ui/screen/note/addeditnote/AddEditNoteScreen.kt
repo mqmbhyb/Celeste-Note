@@ -120,14 +120,12 @@ fun AddEditNoteScreen(
         }
     }
 
-    val biometricHelper = remember {
+    val biometricHelper : (action: () -> Unit) -> Unit =  { action ->
         BiometricAuthenticationHelper(
             activity = context as FragmentActivity,
             callback = object : BiometricAuthenticationHelper.Callback {
                 override fun onSuccess(message: String) {
-                    viewModel.noteIsLock.value.not()
-                    viewModel.onEvent(AddEditNoteEvent.UpdateNote)
-                    PassParametersToast.show(context, message)
+                    action()
                 }
 
                 override fun onError(message: String) {
@@ -137,12 +135,26 @@ fun AddEditNoteScreen(
                 override fun onFailed(message: String) {
                     PassParametersToast.show(context, message)
                 }
-            })
+            }).authenticate()
     }
 
     val onLockClick = {
         showMoreOptions = false
-        biometricHelper.authenticate()
+        biometricHelper {
+            viewModel.noteIsLock.value.not()
+            viewModel.onEvent(AddEditNoteEvent.UpdateNote)
+        }
+    }
+
+    val onDeleteClick = {
+        biometricHelper {
+            if (!viewModel.noteIsDelete.value.boolean) {
+                showMoreOptions = false
+                viewModel.noteIsDelete.value.boolean = true
+                viewModel.onEvent(AddEditNoteEvent.UpdateNote)
+            }
+            navController.navigateUp()
+        }
     }
 
     // 监听返回事件
@@ -227,7 +239,7 @@ fun AddEditNoteScreen(
                                         modifier = Modifier.size(25.dp)
                                     )
                                 },
-                                onClick = { onLockClick() }
+                                onClick = onLockClick
                             )
                             DropdownMenuItem(
                                 text = { Text("上传") },
@@ -248,14 +260,7 @@ fun AddEditNoteScreen(
                                         tint = MaterialTheme.colorScheme.error
                                     )
                                 },
-                                onClick = {
-                                    if (!viewModel.noteIsDelete.value.boolean) {
-                                        showMoreOptions = false
-                                        viewModel.noteIsDelete.value.boolean = true
-                                        viewModel.onEvent(AddEditNoteEvent.UpdateNote)
-                                    }
-                                    navController.navigateUp()
-                                }
+                                onClick = onDeleteClick
                             )
                         }
                     }

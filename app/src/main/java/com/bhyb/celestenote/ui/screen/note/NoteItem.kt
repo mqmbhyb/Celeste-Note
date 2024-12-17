@@ -64,13 +64,27 @@ fun NoteItem(
                 Spacer(modifier = Modifier.height(8.dp))
             }
             if (note.content?.isNotBlank() == true) {
-                Text(
-                    text = note.content,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
+                val firstChar = note.content.firstOrNull().toString()
+                val stars = "*".repeat(3)
+                if (note.isLock) {
+                    if (note.title?.isBlank() == true) {
+                        Text(
+                            text = firstChar + stars,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            maxLines = 1,
+                            overflow = TextOverflow.Clip
+                        )
+                    }
+                } else {
+                    Text(
+                        text = note.content,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
                 Spacer(modifier = Modifier.height(8.dp))
             }
             Row(

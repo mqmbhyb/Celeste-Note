@@ -238,7 +238,6 @@ fun NotesClassificationDisplay(
             callback = object : BiometricAuthenticationHelper.Callback {
                 override fun onSuccess(message: String) {
                     action()
-                    PassParametersToast.show(context, message)
                 }
 
                 override fun onError(message: String) {
