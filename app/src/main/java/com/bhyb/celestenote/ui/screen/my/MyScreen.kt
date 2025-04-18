@@ -104,9 +104,10 @@ fun MyScreen(
     ) {
         IconButton(
             modifier = Modifier.align(Alignment.End),
-            onClick = onSettingClicked
+            onClick = {}
         ) {
-            Icon(Icons.Filled.Settings, contentDescription = "设置")
+            // Wait for modification of the icon
+            Icon(Icons.Filled.Settings, contentDescription = "退出登录")
         }
 
         Spacer(modifier = Modifier.height(45.dp))

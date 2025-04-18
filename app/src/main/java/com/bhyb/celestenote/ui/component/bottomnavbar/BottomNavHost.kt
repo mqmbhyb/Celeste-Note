@@ -10,8 +10,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.bhyb.celestenote.ui.screen.explore.ExploreScreen
-import com.bhyb.celestenote.ui.screen.my.MyScreen
-import com.bhyb.celestenote.ui.screen.my.SettingScreen
 import com.bhyb.celestenote.ui.screen.note.NoteScreen
 import com.bhyb.celestenote.ui.screen.note.addeditnote.AddEditNoteScreen
 import com.bhyb.celestenote.ui.screen.note.drawer.DrawerScreen
@@ -23,7 +21,6 @@ val slideOut = slideOutHorizontally(targetOffsetX = { it })
 
 const val ROUTE_ADD_EDIT_NOTE_SCREEN = "add_edit_note_screen"
 const val ROUTE_SEARCH_SCREEN = "search_screen"
-const val ROUTE_SETTING_SCREEN = "setting_screen"
 
 @Composable
 fun BottomNavHost(
@@ -55,14 +52,6 @@ fun BottomNavHost(
             ExploreScreen()
         }
 
-        composable(BottomNavBarScreen.My.route) {
-            MyScreen(
-                onSettingClicked = {
-                    navController.navigate(ROUTE_SETTING_SCREEN)
-                }
-            )
-        }
-
         composable(
             route = "$ROUTE_ADD_EDIT_NOTE_SCREEN?noteId={noteId}",
             arguments = listOf(
@@ -87,16 +76,6 @@ fun BottomNavHost(
             popExitTransition = { slideOut }
         ) {
             SearchScreen(navController)
-        }
-
-        composable(
-            ROUTE_SETTING_SCREEN,
-            enterTransition = { slideIn },
-            exitTransition = { slideOut },
-            popEnterTransition = { slideIn },
-            popExitTransition = { slideOut }
-        ) {
-            SettingScreen()
         }
     }
 }

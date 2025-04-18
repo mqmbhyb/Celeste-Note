@@ -90,4 +90,11 @@ dependencies {
     implementation(libs.coil.compose)
 
     implementation(libs.biometric)
+
+    implementation(libs.datastore.core.android)
+    implementation(libs.datastore.preferences)
+
+    implementation(libs.kotlinx.serialization.json)
+
+    implementation(libs.androidx.paging.compose)
 }
