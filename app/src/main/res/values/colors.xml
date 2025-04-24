@@ -16,4 +16,7 @@
     <color name="explore_note_content_color">#8D8D8D</color>
     <color name="explore_note_title_color">#252525</color>
     <color name="explore_note_cell_color">#F6F6F6</color>
+    <color name="finish_button">#222</color>
+    <color name="light_gray">#F7F7F7</color>
+    <color name="light_gray_content">#989898</color>
 </resources>

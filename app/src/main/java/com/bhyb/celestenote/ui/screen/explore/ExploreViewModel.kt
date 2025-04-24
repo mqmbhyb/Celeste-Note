@@ -7,7 +7,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.bhyb.celestenote.data.paging.NotePagingSource
-import com.bhyb.celestenote.domain.model.remote.Record
+import com.bhyb.celestenote.domain.model.remote.Note
 import com.bhyb.celestenote.domain.usecase.remote.NoteUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +22,7 @@ class ExploreViewModel @Inject constructor(
         private const val PAGE_SIZE = 6
     }
 
-    val notes: Flow<PagingData<Record>> = Pager(
+    val notes: Flow<PagingData<Note>> = Pager(
         config = PagingConfig(
             pageSize = PAGE_SIZE,
             enablePlaceholders = false

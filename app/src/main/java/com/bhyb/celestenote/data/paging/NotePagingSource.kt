@@ -2,15 +2,15 @@ package com.bhyb.celestenote.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.bhyb.celestenote.domain.model.remote.Record
+import com.bhyb.celestenote.domain.model.remote.Note
 import com.bhyb.celestenote.domain.usecase.remote.noteusecase.GetNotes
 
 class NotePagingSource(
     private val getNotes: GetNotes,
     private val pageSize: Int
-): PagingSource<Int, Record>() {
+): PagingSource<Int, Note>() {
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Record> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Note> {
         return try {
             val page = params.key ?: 1
             val notes = getNotes.invoke(page, pageSize).data.records
@@ -25,7 +25,7 @@ class NotePagingSource(
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Record>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, Note>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)

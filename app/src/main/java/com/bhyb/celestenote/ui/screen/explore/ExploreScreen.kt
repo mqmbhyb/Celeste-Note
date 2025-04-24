@@ -31,21 +31,20 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.bhyb.celestenote.R
-import com.bhyb.celestenote.domain.model.remote.Record
+import com.bhyb.celestenote.domain.model.remote.Note
 
 @Composable
 fun ExploreScreen(
     modifier: Modifier = Modifier,
     viewModel: ExploreViewModel = hiltViewModel()
 ) {
-    val notes: LazyPagingItems<Record> = viewModel.notes.collectAsLazyPagingItems()
+    val notes: LazyPagingItems<Note> = viewModel.notes.collectAsLazyPagingItems()
 
     LazyVerticalStaggeredGrid(
         modifier = modifier.padding(16.dp),
@@ -70,7 +69,7 @@ fun ExploreScreen(
 
 @Composable
 fun Cell(
-    item: Record,
+    item: Note,
     modifier: Modifier = Modifier
 ) {
     Column {
@@ -157,10 +156,4 @@ fun Cell(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun ExploreScreenPreview() {
-    ExploreScreen()
 }

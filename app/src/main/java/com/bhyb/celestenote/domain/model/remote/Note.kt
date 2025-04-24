@@ -3,20 +3,7 @@ package com.bhyb.celestenote.domain.model.remote
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ApiResponse(
-    val code: Int,
-    val msg: String,
-    val data: DataResponse
-)
-
-@Serializable
-data class DataResponse(
-    val total: Int,
-    val records: List<Record>
-)
-
-@Serializable
-data class Record(
+data class Note(
     val id: Int,
     val title: String,
     val content: String,
@@ -28,4 +15,10 @@ data class Record(
     val collect: Int,
     val authorName: String,
     val authorIcon: String?
+)
+
+@Serializable
+data class NotePaging(
+    val total: Int,
+    val records: List<Note>
 )

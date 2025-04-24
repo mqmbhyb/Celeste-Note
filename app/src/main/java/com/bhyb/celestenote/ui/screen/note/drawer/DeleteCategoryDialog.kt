@@ -41,7 +41,7 @@ fun DeleteCategoryDialog(
     Dialog(onDismissRequest = onDismissRequest) {
         Surface(
             shape = MaterialTheme.shapes.medium,
-            color = Color.White.copy(0.8f)
+            color = Color.White
         ) {
             Column(
                 modifier = Modifier
