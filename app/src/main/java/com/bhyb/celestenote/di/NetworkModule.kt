@@ -10,6 +10,7 @@ import com.bhyb.celestenote.domain.usecase.remote.NoteUseCases
 import com.bhyb.celestenote.domain.usecase.remote.UserUseCase
 import com.bhyb.celestenote.domain.usecase.remote.noteusecase.GetNotes
 import com.bhyb.celestenote.domain.usecase.remote.userusecase.UserLogin
+import com.bhyb.celestenote.domain.usecase.remote.userusecase.UserRegister
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -75,7 +76,8 @@ object NetworkModule {
     @Singleton
     fun provideUserUseCase(repository: UserRepository): UserUseCase {
         return UserUseCase(
-            userLogin = UserLogin(repository)
+            userLogin = UserLogin(repository),
+            userRegister = UserRegister(repository)
         )
     }
 }

@@ -13,7 +13,9 @@ class NotePagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Note> {
         return try {
             val page = params.key ?: 1
-            val notes = getNotes.invoke(page, pageSize).data.records
+            val response = getNotes.invoke(page, pageSize)
+
+            val notes = response.data?.records ?: emptyList()
 
             LoadResult.Page(
                 data = notes,

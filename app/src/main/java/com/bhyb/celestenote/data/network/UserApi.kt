@@ -12,7 +12,7 @@ interface UserApi {
     @POST("login")
     suspend fun login(@Body user: User): ApiResult<User>
 
-    @POST
+    @POST("/")
     suspend fun register(@Body user: User): ApiResult<Unit>
 
     @GET("{id}")

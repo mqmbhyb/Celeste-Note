@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 data class ApiResult<T>(
     val code: Int,
     val msg: String,
-    val data: T
+    val data: T? = null
 )

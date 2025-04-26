@@ -11,7 +11,7 @@ class UserRepositoryImpl(private val apiService: UserApi): UserRepository {
     }
 
     override suspend fun register(name: String, password: Int): ApiResult<Unit> {
-        TODO("Not yet implemented")
+        return apiService.register(User(name = name, password = password))
     }
 
     override suspend fun getUserById(id: Int): ApiResult<User> {
