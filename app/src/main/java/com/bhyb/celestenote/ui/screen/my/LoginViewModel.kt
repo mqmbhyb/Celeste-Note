@@ -27,11 +27,6 @@ class LoginViewModel @Inject constructor(
     private val _error = MutableStateFlow("")
     val error: StateFlow<String> = _error.asStateFlow()
 
-    fun resetState() {
-        _loginState.value = null
-        _error.value = ""
-    }
-
     fun login(name: String, password: String) {
         viewModelScope.launch {
             _isLoading.value = true

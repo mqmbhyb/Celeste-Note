@@ -60,8 +60,12 @@ fun LoginScreen(
     var name by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
+    val userManager = LocalUserManager.current
+
     LaunchedEffect(loginState) {
         if (loginState?.code == 1) {
+            loginState!!.data?.let { userManager.login(it) }
+
             // 登录成功，跳转到我的页面
             navController.navigate(BottomNavBarScreen.My.route) {
                 popUpTo(navController.graph.startDestinationId) { inclusive = true }

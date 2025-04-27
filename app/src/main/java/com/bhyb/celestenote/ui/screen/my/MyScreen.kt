@@ -1,8 +1,6 @@
 package com.bhyb.celestenote.ui.screen.my
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,8 +30,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -46,7 +42,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.bhyb.celestenote.R
 import com.bhyb.celestenote.di.BASE_URL
@@ -68,7 +63,6 @@ data class BottomColumnItem(
 @Composable
 fun MyScreen(
     onLoginClicked: () -> Unit,
-    viewModel: LoginViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
     var showModalBottomSheet by remember { mutableStateOf(false) }
@@ -85,22 +79,8 @@ fun MyScreen(
         )
     }
 
-    val loginState by viewModel.loginState.collectAsState()
-    var userIcon by remember { mutableStateOf("") }
-    var userName by remember { mutableStateOf("") }
-    var isLogin by remember { mutableStateOf(false) }
-
-    LaunchedEffect(loginState) {
-        Log.d(TAG, "登录结果: $loginState")
-        if (loginState?.code == 1) {
-            userIcon = loginState?.data?.icon ?: (BASE_URL + "image/default.jpg")
-            isLogin = true
-            userName = loginState?.data?.name?: ""
-        } else {
-            isLogin = false
-            userIcon = BASE_URL + "image/default.jpg"
-        }
-    }
+    val userManager = LocalUserManager.current
+    val currentUser = userManager.currentUser
 
     val bottomColumnItems = remember {
         listOf(
@@ -127,8 +107,10 @@ fun MyScreen(
     ) {
         IconButton(
             modifier = Modifier.align(Alignment.End),
-            onClick = {},
-            enabled = isLogin
+            onClick = {
+                userManager.logout()
+            },
+            enabled = currentUser != null
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.arrow_right_from_bracket_solid),
@@ -140,7 +122,7 @@ fun MyScreen(
         Spacer(modifier = Modifier.height(45.dp))
 
         AsyncImage(
-            model = userIcon,
+            model = (BASE_URL + currentUser?.icon),
             contentDescription = "用户头像",
             modifier = Modifier
                 .size(80.dp)
@@ -150,8 +132,8 @@ fun MyScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        if (isLogin) {
-            Text(userName)
+        if (currentUser != null) {
+            Text(currentUser.name)
         } else {
             Button(
                 onClick = {
